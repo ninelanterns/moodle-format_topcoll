@@ -814,3 +814,74 @@ body.jsenabled #toggle-all {
     }
 }
 
+/**
+//===================================================
+//              Begin core hack - VODHAS-859
+//===================================================  
+*/
+.format-topcoll .course-content ul li.section.main {
+    border-bottom: none;
+}
+.format-topcoll .course-content ul.ctopics li.section.main .content, 
+.format-topcoll .course-content ul.ctopics li.tcsection .content {
+    margin: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dddddd;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a {
+    padding-left: 35px;
+    margin-left: 0;
+    margin-right: 0;
+    background-position: 10px center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a {
+    background-image: none;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a:before {
+    position: absolute;
+    font-family: 'FontAwesome';
+    left: 30px;
+    vertical-align: middle;
+    line-height: 33px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.toggle_closed:before {
+    content: '\f054'; 
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.toggle_open:before {
+    content: '\f078'; 
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.tc-small:before {
+    font-size: 16px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.tc-medium:before {
+    font-size: 24px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.tc-large:before {
+    font-size: 32px;
+}
+.course-content ul.ctopics li.section .content .toggledsection {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.course-content ul.ctopics li.section .content .toggle a  h3.section-title, 
+.course-content ul.ctopics li.section .content.sectionhidden h3.section-title {
+    font-size: 20px;
+}
+.format-topcoll .course-content ul li.section.main .content .sectionbody ul.section li.activity {
+    border-bottom: 1px solid #dddddd;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+}
+.format-topcoll .course-content ul li.section.main .content .sectionbody ul.section li.activity:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+/**
+//===================================================
+//              End core hack
+//=================================================== 
+*/
+

@@ -404,3 +404,57 @@ $string['resetalldisplayinstructions_help'] = 'Resets the display instructions t
 // Readme.
 $string['readme_title'] = 'Collapsed Topics read-me';
 $string['readme_desc'] = 'Please click on \'{$a->url}\' for lots more information about Collapsed Topics.';
+
+//===================================================
+//              Begin core hack - VODHAS-859
+//===================================================  
+$string['defaultdisplayopencloseall'] = 'Display Open all / Close all.';
+$string['defaultdisplayopencloseall_desc'] = 'Enable the Open all and Close all link. This will appear on the top of the accordions.';
+$string['setdisplayopencloseall'] = 'Display Open all / Close all.';
+$string['setdisplayopencloseall_help'] = 'Enable the Open all and Close all link. This will appear on the top of the accordions.';
+
+// Toggle border colours
+$string['defaulttgbordercolour'] = 'Toggle border colour.';
+$string['defaulttgbordercolour_desc'] = "Toggle border colour in hexidecimal RGB.";
+$string['settogglebordercolour'] = 'Toggle border colour';
+$string['settogglebordercolour_help'] = 'Sets the border colour of the toggle';
+
+$string['defaulttgborderhvrcolour'] = 'Toggle hover border colour.';
+$string['defaulttgborderhvrcolour_desc'] = "Toggle hover border colour in hexidecimal RGB.";
+$string['settoggleborderhovercolour'] = 'Toggle hover border colour.';
+$string['settoggleborderhovercolour_help'] = 'Sets the border colour of the toggle when the mouse moves over it.';
+
+// Collapsed state toggle background colours
+$string['defaulttgfgcolourcollapsed'] = 'Collapsed toggle foreground colour.';
+$string['defaulttgfgcolourcollapsed_desc'] = "Collapsed toggle foreground colour in hexidecimal RGB.";
+$string['setcollapsedtoggleforegroundcolour'] = 'Collapsed toggle foreground colour';
+$string['setcollapsedtoggleforegroundcolour_help'] = 'Sets the foreground colour of the collapsed toggle in hexidecimal RGB.';
+
+$string['defaulttgfghvrcolourcollapsed'] = 'Collapsed toggle foreground hover colour.';
+$string['defaulttgfghvrcolourcollapsed_desc'] = "Collapsed toggle foreground hover colour in hexidecimal RGB.";
+$string['setcollapsedtoggleforegroundhovercolour'] = 'Collapsed toggle foreground hover colour';
+$string['setcollapsedtoggleforegroundhovercolour_help'] = 'Sets the foreground colour of the collapsed toggle in hexidecimal RGB.';
+
+$string['defaulttgbgcolourcollapsed'] = 'Collapsed toggle background colour.';
+$string['defaulttgbgcolourcollapsed_desc'] = "Collapsed toggle background colour in hexidecimal RGB.";
+$string['setcollapsedtogglebackgroundcolour'] = 'Collapsed toggle background colour.';
+$string['setcollapsedtogglebackgroundcolour_help'] = 'Sets the collapsed toggle background colour in hexidecimal RGB.';
+
+$string['defaulttgbghvrcolourcollapsed'] = 'Collapsed toggle background hover colour.';
+$string['defaulttgbghvrcolourcollapsed_desc'] = "Collapsed toggle background hover colour in hexidecimal RGB.";
+$string['setcollapsedtogglebackgroundhovercolour'] = 'Collapsed toggle background hover colour';
+$string['setcollapsedtogglebackgroundhovercolour_help'] = 'Sets the collapsed toggle background hover colour in hexidecimal RBG.';
+
+// Collapsed state toggle border colours
+$string['defaulttgbordercolourcollapsed'] = 'Collapsed toggle border colour.';
+$string['defaulttgbordercolourcollapsed_desc'] = "Collapsed toggle border colour in hexidecimal RGB.";
+$string['setcollapsedtogglebordercolour'] = 'Collpased toggle border colour.';
+$string['setcollapsedtogglebordercolour_help'] = 'Sets the collapsed toggle border colour in hexidecimal RGB.';
+
+$string['defaulttgborderhvrcolourcollapsed'] = 'Collapsed toggle hover border colour.';
+$string['defaulttgborderhvrcolourcollapsed_desc'] = "Collapsed toggle hover border colour in hexidecimal RGB.";
+$string['setcollapsedtoggleborderhovercolour'] = 'Collpased toggle hover border colour';
+$string['setcollapsedtoggleborderhovercolour_help'] = 'Sets the collapsed toggle hover border colour in hexidecimal RGB.';
+//===================================================
+//              End core hack
+//=================================================== 

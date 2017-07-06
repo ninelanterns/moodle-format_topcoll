@@ -106,28 +106,42 @@ if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTI
         $defaultuserpreference));
 
     $tcsettings = $courseformat->get_settings();
+    // Site wide configuration Site Administration -> Plugins -> Course formats -> Collapsed Topics.
+    $tcborderradiustl = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiustl'), PARAM_TEXT);
+    $tcborderradiustr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiustr'), PARAM_TEXT);
+    $tcborderradiusbr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbr'), PARAM_TEXT);
+    $tcborderradiusbl = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbl'), PARAM_TEXT);
     ?>
     <style type="text/css" media="screen">
     /* <![CDATA[ */
 
     /* -- Toggle -- */
-    .course-content ul.ctopics li.section .content .toggle, .course-content ul.ctopics li.section .content.sectionhidden {
+    /** -- Core hack -- */
+    .course-content ul.ctopics li.section .content a.toggle_open,
+    .course-content ul.ctopics li.section .content.sectionhidden a.toggle_open{
         background-color: <?php
                             if ($tcsettings['togglebackgroundcolour'][0] != '#') {
                                 echo '#';
                             }
                             echo $tcsettings['togglebackgroundcolour'];
                           ?>;
+        color: <?php
+                    if ($tcsettings['toggleforegroundcolour'][0] != '#') {
+                        echo '#';
+                    }
+                    echo $tcsettings['toggleforegroundcolour'];
+                  ?>;
+        -moz-border-top-left-radius: <?php echo $tcborderradiustl ?>em;
+        -webkit-border-top-left-radius: <?php echo $tcborderradiustl ?>em;
+        border-top-left-radius: <?php echo $tcborderradiustl ?>em;
+        -moz-border-top-right-radius: <?php echo $tcborderradiustr ?>em;
+        -webkit-border-top-right-radius: <?php echo $tcborderradiustr ?>em;
+        border-top-right-radius: <?php echo $tcborderradiustr ?>em;
     }
 
     /* -- Toggle text -- */
+    /** -- Core hack -- */ 
     .course-content ul.ctopics li.section .content .toggle a, .course-content ul.ctopics li.section .content.sectionhidden {
-        color: <?php
-                if ($tcsettings['toggleforegroundcolour'][0] != '#') {
-                    echo '#';
-                }
-                echo $tcsettings['toggleforegroundcolour'];
-               ?>;
         text-align: <?php
     switch ($tcsettings['togglealignment']) {
         case 1:
@@ -141,6 +155,23 @@ if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTI
     }
     ?>;
     }
+    
+    /* -- What happens when a toggle is hovered over when toggle is open -- */
+    .course-content ul.ctopics li.section .content a.toggle_open:hover,
+    .course-content ul.ctopics li.section .content.sectionhidden a.toggle_open:hover{
+        background-color: <?php
+                            if ($tcsettings['togglebackgroundhovercolour'][0] != '#') {
+                                echo '#';
+                            }
+                            echo $tcsettings['togglebackgroundhovercolour'];
+                          ?>;
+        color: <?php
+                if ($tcsettings['toggleforegroundhovercolour'][0] != '#') {
+                    echo '#';
+                }
+                echo $tcsettings['toggleforegroundhovercolour'];
+               ?>;
+    }
 
     /* Toggle icon position. */
     .course-content ul.ctopics li.section .content .toggle a, #toggle-all .content h4 a {
@@ -153,25 +184,6 @@ if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTI
             echo 'left';
     }
     ?> center;
-    }
-
-    /* -- What happens when a toggle is hovered over -- */
-    .course-content ul.ctopics li.section .content .toggle a:hover, .course-content ul.ctopics li.section .content.sectionhidden .toggle a:hover {
-        color: <?php
-                 if ($tcsettings['toggleforegroundhovercolour'][0] != '#') {
-                     echo '#';
-                 }
-                 echo $tcsettings['toggleforegroundhovercolour'];
-               ?>;
-    }
-
-    .course-content ul.ctopics li.section .content div.toggle:hover {
-        background-color: <?php
-                            if ($tcsettings['togglebackgroundhovercolour'][0] != '#') {
-                                echo '#';
-                            }
-                            echo $tcsettings['togglebackgroundhovercolour'];
-                          ?>;
     }
 
 <?php
@@ -215,13 +227,12 @@ if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTI
     }
 <?php
     }
-    // Site wide configuration Site Administration -> Plugins -> Course formats -> Collapsed Topics.
-    $tcborderradiustl = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiustl'), PARAM_TEXT);
-    $tcborderradiustr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiustr'), PARAM_TEXT);
-    $tcborderradiusbr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbr'), PARAM_TEXT);
-    $tcborderradiusbl = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbl'), PARAM_TEXT);
     ?>
-    .course-content ul.ctopics li.section .content .toggle, .course-content ul.ctopics li.section .content.sectionhidden {
+    /** 
+        core hack to add border radius to the whole section and not just on the header 
+    */
+    .format-topcoll .course-content ul.ctopics li.section.main .content, 
+    .format-topcoll .course-content ul.ctopics li.tcsection .content {
         -moz-border-top-left-radius: <?php echo $tcborderradiustl ?>em;
         -webkit-border-top-left-radius: <?php echo $tcborderradiustl ?>em;
         border-top-left-radius: <?php echo $tcborderradiustl ?>em;
@@ -235,6 +246,81 @@ if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTI
         -webkit-border-bottom-left-radius: <?php echo $tcborderradiusbl ?>em;
         border-bottom-left-radius: <?php echo $tcborderradiusbl ?>em;
     }
+    /* -- section border colour -- */
+    .format-topcoll .course-content ul.ctopics li.section.main .content.content_open, 
+    .format-topcoll .course-content ul.ctopics li.tcsection .content.content_open {
+        border-color: <?php
+                            if ($tcsettings['togglebordercolour'][0] != '#') {
+                                echo '#';
+                            }
+                            echo $tcsettings['togglebordercolour'];
+                          ?>;
+    }
+    .format-topcoll .course-content ul.ctopics li.section.main .content.content_open:hover, 
+    .format-topcoll .course-content ul.ctopics li.tcsection .content.content_open:hover {
+        border-color: <?php
+                            if ($tcsettings['toggleborderhovercolour'][0] != '#') {
+                                echo '#';
+                            }
+                            echo $tcsettings['toggleborderhovercolour'];
+                          ?>;
+    }
+    /* -- collapsed section border colour -- */
+    .format-topcoll .course-content ul.ctopics.ctlayout li.section.main .content.content_closed, 
+    .format-topcoll .course-content ul.ctopics.ctlayout li.tcsection .content.content_closed {
+        border-color: <?php
+                            if ($tcsettings['collapsedtogglebordercolour'][0] != '#') {
+                                echo '#';
+                            }
+                            echo $tcsettings['collapsedtogglebordercolour'];
+                          ?>;
+    }
+    .format-topcoll .course-content ul.ctopics.ctlayout li.section.main .content.content_closed:hover, 
+    .format-topcoll .course-content ul.ctopics.ctlayout li.tcsection .content.content_closed:hover {
+        border-color: <?php
+                            if ($tcsettings['collapsedtoggleborderhovercolour'][0] != '#') {
+                                echo '#';
+                            }
+                            echo $tcsettings['collapsedtoggleborderhovercolour'];
+                          ?>;
+    }
+    /** 
+        Begin core hack - VODHAS-859
+    */
+    .course-content ul.ctopics li.section .content a.toggle_closed,
+    .course-content ul.ctopics li.section .content.sectionhidden a.toggle_closed{
+        background-color: <?php
+                            if ($tcsettings['collapsedtogglebackgroundcolour'][0] != '#') {
+                                echo '#';
+                            }
+                            echo $tcsettings['collapsedtogglebackgroundcolour'];
+                          ?>;
+        color: <?php
+                    if ($tcsettings['collapsedtoggleforegroundcolour'][0] != '#') {
+                        echo '#';
+                    }
+                    echo $tcsettings['collapsedtoggleforegroundcolour'];
+                  ?>;
+    }
+    .course-content ul.ctopics li.section .content a.toggle_closed:hover,
+    .course-content ul.ctopics li.section .content.sectionhidden a.toggle_closed:hover{
+        background-color: <?php
+                            if ($tcsettings['collapsedtogglebackgroundhovercolour'][0] != '#') {
+                                echo '#';
+                            }
+                            echo $tcsettings['collapsedtogglebackgroundhovercolour'];
+                          ?>;
+        color: <?php
+                    if ($tcsettings['collapsedtoggleforegroundhovercolour'][0] != '#') {
+                        echo '#';
+                    }
+                    echo $tcsettings['collapsedtoggleforegroundhovercolour'];
+                  ?>;
+    }
+    
+    /** 
+        End core hack 
+    */
     /* ]]> */
     </style>
     <?php

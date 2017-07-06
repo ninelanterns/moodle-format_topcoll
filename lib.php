@@ -343,6 +343,44 @@ class format_topcoll extends format_base {
             if ($defaulttgbghvrcolour[0] == '#') {
                 $defaulttgbghvrcolour = substr($defaulttgbghvrcolour, 1);
             }
+            //===================================================
+            //              Begin core hack - VODHAS-859
+            //===================================================
+            $defaulttgbordercolour = get_config('format_topcoll', 'defaulttgbordercolour');
+            if ($defaulttgbordercolour[0] == '#') {
+                $defaulttgbordercolour = substr($defaulttgbordercolour, 1);
+            }
+            $defaulttgborderhvrcolour = get_config('format_topcoll', 'defaulttgborderhvrcolour');
+            if ($defaulttgborderhvrcolour[0] == '#') {
+                $defaulttgborderhvrcolour = substr($defaulttgborderhvrcolour, 1);
+            }
+            $defaulttgfgcolourcollapsed = get_config('format_topcoll', 'defaulttgfgcolourcollapsed');
+            if ($defaulttgfgcolourcollapsed[0] == '#') {
+                $defaulttgfgcolourcollapsed = substr($defaulttgfgcolourcollapsed, 1);
+            }
+            $defaulttgfghvrcolourcollapsed = get_config('format_topcoll', 'defaulttgfghvrcolourcollapsed');
+            if ($defaulttgfghvrcolourcollapsed[0] == '#') {
+                $defaulttgfghvrcolourcollapsed = substr($defaulttgfghvrcolourcollapsed, 1);
+            }
+            $defaulttgbgcolourcollapsed = get_config('format_topcoll', 'defaulttgbgcolourcollapsed');
+            if ($defaulttgbgcolourcollapsed[0] == '#') {
+                $defaulttgbgcolourcollapsed = substr($defaulttgbgcolourcollapsed, 1);
+            }
+            $defaulttgbghvrcolourcollapsed = get_config('format_topcoll', 'defaulttgbghvrcolourcollapsed');
+            if ($defaulttgbghvrcolourcollapsed[0] == '#') {
+                $defaulttgbghvrcolourcollapsed = substr($defaulttgbghvrcolourcollapsed, 1);
+            }
+            $defaulttgbordercolourcollapsed = get_config('format_topcoll', 'defaulttgbordercolourcollapsed');
+            if ($defaulttgbordercolourcollapsed[0] == '#') {
+                $defaulttgbordercolourcollapsed = substr($defaulttgbordercolourcollapsed, 1);
+            }
+            $defaulttgborderhvrcolourcollapsed = get_config('format_topcoll', 'defaulttgborderhvrcolourcollapsed');
+            if ($defaulttgborderhvrcolourcollapsed[0] == '#') {
+                $defaulttgborderhvrcolourcollapsed = substr($defaulttgborderhvrcolourcollapsed, 1);
+            }
+            //===================================================
+            //              End core hack
+            //===================================================             
             $readme = new moodle_url('/course/format/topcoll/Readme.md');
             $readme = html_writer::link($readme, 'Readme.md', array('target' => '_blank'));
             $courseconfig = get_config('moodlecourse');
@@ -418,7 +456,49 @@ class format_topcoll extends format_base {
                 'readme' => array(
                     'default' => get_string('readme_desc', 'format_topcoll', array('url' => $readme)),
                     'type' => PARAM_ALPHA,
+                ),
+                //===================================================
+                //              Begin core hack - VODHAS-859
+                //===================================================
+                'togglebordercolour' => array(
+                    'default' => $defaulttgbordercolour,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'toggleborderhovercolour' => array(
+                    'default' => $defaulttgborderhvrcolour,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'collapsedtoggleforegroundcolour' => array(
+                    'default' => $defaulttgfgcolourcollapsed,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'collapsedtoggleforegroundhovercolour' => array(
+                    'default' => $defaulttgfghvrcolourcollapsed,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'collapsedtogglebackgroundcolour' => array(
+                    'default' => $defaulttgbgcolourcollapsed,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'collapsedtogglebackgroundhovercolour' => array(
+                    'default' => $defaulttgbghvrcolourcollapsed,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'collapsedtogglebordercolour' => array(
+                    'default' => $defaulttgbordercolourcollapsed,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'collapsedtoggleborderhovercolour' => array(
+                    'default' => $defaulttgborderhvrcolourcollapsed,
+                    'type' => PARAM_ALPHANUM,
+                ),
+                'displayopencloseall' => array(
+                    'default' => get_config('format_topcoll', 'defaultdisplayopencloseall'),
+                    'type' => PARAM_INT,
                 )
+                //===================================================
+                //              End core hack
+                //=================================================== 
             );
         }
         if ($foreditform && !isset($courseformatoptions['coursedisplay']['label'])) {
@@ -440,7 +520,44 @@ class format_topcoll extends format_base {
             if ($defaulttgbghvrcolour[0] == '#') {
                 $defaulttgbghvrcolour = substr($defaulttgbghvrcolour, 1);
             }
-
+            //===================================================
+            //              Begin core hack - VODHAS-859
+            //===================================================
+            $defaulttgbordercolour = get_config('format_topcoll', 'defaulttgbordercolour');
+            if ($defaulttgbordercolour[0] == '#') {
+                $defaulttgbordercolour = substr($defaulttgbordercolour, 1);
+            }
+            $defaulttgborderhvrcolour = get_config('format_topcoll', 'defaulttgborderhvrcolour');
+            if ($defaulttgborderhvrcolour[0] == '#') {
+                $defaulttgborderhvrcolour = substr($defaulttgborderhvrcolour, 1);
+            }
+            $defaulttgfgcolourcollapsed = get_config('format_topcoll', 'defaulttgfgcolourcollapsed');
+            if ($defaulttgfgcolourcollapsed[0] == '#') {
+                $defaulttgfgcolourcollapsed = substr($defaulttgfgcolourcollapsed, 1);
+            }
+            $defaulttgfghvrcolourcollapsed = get_config('format_topcoll', 'defaulttgfghvrcolourcollapsed');
+            if ($defaulttgfghvrcolourcollapsed[0] == '#') {
+                $defaulttgfghvrcolourcollapsed = substr($defaulttgfghvrcolourcollapsed, 1);
+            }
+            $defaulttgbgcolourcollapsed = get_config('format_topcoll', 'defaulttgbgcolourcollapsed');
+            if ($defaulttgbgcolourcollapsed[0] == '#') {
+                $defaulttgbgcolourcollapsed = substr($defaulttgbgcolourcollapsed, 1);
+            }
+            $defaulttgbghvrcolourcollapsed = get_config('format_topcoll', 'defaulttgbghvrcolourcollapsed');
+            if ($defaulttgbghvrcolourcollapsed[0] == '#') {
+                $defaulttgbghvrcolourcollapsed = substr($defaulttgbghvrcolourcollapsed, 1);
+            }
+            $defaulttgbordercolourcollapsed = get_config('format_topcoll', 'defaulttgbordercolour');
+            if ($defaulttgbordercolour[0] == '#') {
+                $defaulttgbordercolour = substr($defaulttgbordercolour, 1);
+            }
+            $defaulttgborderhvrcolourcollapsed = get_config('format_topcoll', 'defaulttgborderhvrcolourcollapsed');
+            if ($defaulttgborderhvrcolourcollapsed[0] == '#') {
+                $defaulttgborderhvrcolourcollapsed = substr($defaulttgborderhvrcolourcollapsed, 1);
+            }
+            //===================================================
+            //              End core hack
+            //===================================================             
             $coursecontext = context_course::instance($this->courseid);
 
             $courseconfig = get_config('moodlecourse');
@@ -560,6 +677,22 @@ class format_topcoll extends format_base {
                               2 => new lang_string('yes'))
                     )
                 );
+                //===================================================
+                //              Begin core hack - VODHAS-859
+                //=================================================== 
+                $courseformatoptionsedit['displayopencloseall'] = array(
+                    'label' => new lang_string('setdisplayopencloseall', 'format_topcoll'),
+                    'help' => 'setdisplayopencloseall',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'select',
+                    'element_attributes' => array(
+                        array(1 => new lang_string('no'),
+                              2 => new lang_string('yes'))
+                    )
+                );
+                //===================================================
+                //              End core hack
+                //=================================================== 
             } else {
                 $courseformatoptionsedit['layoutelement'] =
                     array('label' => get_config('format_topcoll', 'defaultlayoutelement'), 'element_type' => 'hidden');
@@ -573,6 +706,14 @@ class format_topcoll extends format_base {
                     array('label' => get_config('format_topcoll', 'defaulttoggleiconposition'), 'element_type' => 'hidden');
                 $courseformatoptionsedit['showsectionsummary'] =
                     array('label' => get_config('format_topcoll', 'defaultshowsectionsummary'), 'element_type' => 'hidden');
+                //===================================================
+                //              Begin core hack - VODHAS-859
+                //=================================================== 
+                $courseformatoptionsedit['displayopencloseall'] =
+                    array('label' => get_config('format_topcoll', 'defaultdisplayopencloseall'), 'element_type' => 'hidden');
+                //===================================================
+                //              End core hack
+                //=================================================== 
             }
 
             if (has_capability('format/topcoll:changetogglealignment', $coursecontext)) {
@@ -669,6 +810,84 @@ class format_topcoll extends format_base {
                         array('tabindex' => -1, 'value' => $defaulttgbghvrcolour)
                     )
                 );
+                //===================================================
+                //              Begin core hack - VODHAS-859
+                //=================================================== 
+                $courseformatoptionsedit['togglebordercolour'] = array(
+                    'label' => new lang_string('settogglebordercolour', 'format_topcoll'),
+                    'help' => 'settogglebordercolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgbordercolour)
+                    )
+                );
+                $courseformatoptionsedit['toggleborderhovercolour'] = array(
+                    'label' => new lang_string('settoggleborderhovercolour', 'format_topcoll'),
+                    'help' => 'settoggleborderhovercolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgborderhvrcolour)
+                    )
+                );
+                $courseformatoptionsedit['collapsedtoggleforegroundcolour'] = array(
+                    'label' => new lang_string('setcollapsedtoggleforegroundcolour', 'format_topcoll'),
+                    'help' => 'setcollapsedtoggleforegroundcolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgfgcolourcollapsed)
+                    )
+                );
+                $courseformatoptionsedit['collapsedtoggleforegroundhovercolour'] = array(
+                    'label' => new lang_string('setcollapsedtoggleforegroundhovercolour', 'format_topcoll'),
+                    'help' => 'setcollapsedtoggleforegroundhovercolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgfghvrcolourcollapsed)
+                    )
+                );
+                $courseformatoptionsedit['collapsedtogglebackgroundcolour'] = array(
+                    'label' => new lang_string('setcollapsedtogglebackgroundcolour', 'format_topcoll'),
+                    'help' => 'setcollapsedtogglebackgroundcolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgbgcolourcollapsed)
+                    )
+                );
+                $courseformatoptionsedit['collapsedtogglebackgroundhovercolour'] = array(
+                    'label' => new lang_string('setcollapsedtogglebackgroundhovercolour', 'format_topcoll'),
+                    'help' => 'setcollapsedtogglebackgroundhovercolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgbghvrcolourcollapsed)
+                    )
+                );
+                $courseformatoptionsedit['collapsedtogglebordercolour'] = array(
+                    'label' => new lang_string('setcollapsedtogglebordercolour', 'format_topcoll'),
+                    'help' => 'setcollapsedtogglebordercolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgbordercolourcollapsed)
+                    )
+                );
+                $courseformatoptionsedit['collapsedtoggleborderhovercolour'] = array(
+                    'label' => new lang_string('setcollapsedtoggleborderhovercolour', 'format_topcoll'),
+                    'help' => 'setcollapsedtoggleborderhovercolour',
+                    'help_component' => 'format_topcoll',
+                    'element_type' => 'tccolourpopup',
+                    'element_attributes' => array(
+                        array('tabindex' => -1, 'value' => $defaulttgborderhvrcolourcollapsed)
+                    )
+                );
+                //===================================================
+                //              End core hack
+                //=================================================== 
             } else {
                 $courseformatoptionsedit['toggleforegroundcolour'] =
                     array('label' => $defaulttgfgcolour, 'element_type' => 'hidden');
@@ -678,6 +897,28 @@ class format_topcoll extends format_base {
                     array('label' => $defaulttgbgcolour, 'element_type' => 'hidden');
                 $courseformatoptionsedit['togglebackgroundhovercolour'] =
                     array('label' => $defaulttgbghvrcolour, 'element_type' => 'hidden');
+                //===================================================
+                //              Begin core hack - VODHAS-859
+                //=================================================== 
+                $courseformatoptionsedit['togglebordercolour'] =
+                    array('label' => $defaulttgbordercolour, 'element_type' => 'hidden');
+                $courseformatoptionsedit['toggleborderhovercolour'] =
+                    array('label' => $defaulttgborderhvrcolour, 'element_type' => 'hidden');
+                $courseformatoptionsedit['collapsedtoggleforegroundcolour'] =
+                    array('label' => $defaulttgfgcolourcollapsed, 'element_type' => 'hidden');
+                $courseformatoptionsedit['collapsedtoggleforegroundhovercolour'] =
+                    array('label' => $defaulttgfghvrcolourcollapsed, 'element_type' => 'hidden');
+                $courseformatoptionsedit['collapsedtogglebackgroundcolour'] =
+                    array('label' => $defaulttgbgcolourcollapsed, 'element_type' => 'hidden');
+                $courseformatoptionsedit['collapsedtogglebackgroundhovercolour'] =
+                    array('label' => $defaulttgbghvrcolourcollapsed, 'element_type' => 'hidden');
+                $courseformatoptionsedit['collapsedtogglebordercolour'] =
+                    array('label' => $defaulttgbordercolourcollapsed, 'element_type' => 'hidden');
+                $courseformatoptionsedit['collapsedtoggleborderhovercolour'] =
+                    array('label' => $defaulttgborderhvrcolourcollapsed, 'element_type' => 'hidden');
+                //===================================================
+                //              End core hack
+                //=================================================== 
             }
             $courseformatoptionsedit['readme'] = array(
                     'label' => get_string('readme_title', 'format_topcoll'),

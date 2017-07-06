@@ -372,7 +372,18 @@ class format_topcoll_renderer extends format_section_renderer_base {
             $o .= html_writer::tag('div', $leftcontent, array('class' => 'left side'));
             $o .= html_writer::tag('div', $rightcontent, array('class' => 'right side'));
         }
-        $o .= html_writer::start_tag('div', array('class' => 'content'));
+        //===================================================
+        //              Begin core hack - VODHAS-859
+        //===================================================  
+        if ((!($section->toggle === null)) && ($section->toggle == true)) {
+            $contenttoggleclass = 'content_open';
+        } else {
+            $contenttoggleclass = 'content_closed';
+        }
+        //===================================================
+        //              End core hack
+        //=================================================== 
+        $o .= html_writer::start_tag('div', array('class' => 'content '. $contenttoggleclass));
 
         if (($onsectionpage == false) && ($section->section != 0)) {
             $o .= html_writer::start_tag('div',
@@ -879,18 +890,19 @@ class format_topcoll_renderer extends format_section_renderer_base {
             $o .= html_writer::tag('div', $this->output->spacer(), array('class' => 'left side'));
             $o .= html_writer::tag('div', $this->output->spacer(), array('class' => 'right side'));
         }
-
         $o .= html_writer::start_tag('div', array('class' => 'content'));
         $iconsetclass = ' toggle-'.$this->tcsettings['toggleiconset'];
         if ($this->tcsettings['toggleallhover'] == 2) {
             $iconsetclass .= '-hover'.$iconsetclass;
         }
         $o .= html_writer::start_tag('div', array('class' => 'sectionbody'.$iconsetclass));
-        $o .= html_writer::start_tag('h4', null);
-        $o .= html_writer::tag('a', get_string('topcollopened', 'format_topcoll'),
-                               array('class' => 'on '.$this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-opened'));
-        $o .= html_writer::tag('a', get_string('topcollclosed', 'format_topcoll'),
-                               array('class' => 'off '.$this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-closed'));
+        if($this->tcsettings['displayopencloseall'] == 2) {
+            $o .= html_writer::start_tag('h4', null);
+            $o .= html_writer::tag('a', get_string('topcollopened', 'format_topcoll'),
+                                   array('class' => 'on '.$this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-opened'));
+            $o .= html_writer::tag('a', get_string('topcollclosed', 'format_topcoll'),
+                                   array('class' => 'off '.$this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-closed'));
+        }
         $o .= html_writer::end_tag('h4');
         $o .= html_writer::end_tag('div');
         $o .= html_writer::end_tag('div');

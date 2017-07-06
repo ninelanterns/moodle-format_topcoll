@@ -170,6 +170,78 @@ if ($ADMIN->fulltree) {
     $default = '#eeeeff';
     $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
     $settings->add($setting);
+    
+       
+    //===================================================
+    //              Begin core hack - VODHAS-859
+    //===================================================  
+    
+    // Default toggle border colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgbordercolour';
+    $title = get_string('defaulttgbordercolour', 'format_topcoll');
+    $description = get_string('defaulttgbordercolour_desc', 'format_topcoll');
+    $default = '#dddddd';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+    
+    // Default toggle border hover colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgborderhvrcolour';
+    $title = get_string('defaulttgborderhvrcolour', 'format_topcoll');
+    $description = get_string('defaulttgborderhvrcolour_desc', 'format_topcoll');
+    $default = '#dddddd';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+    
+    // Collapsed state - Default toggle foreground colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgfgcolourcollapsed';
+    $title = get_string('defaulttgfgcolourcollapsed', 'format_topcoll');
+    $description = get_string('defaulttgfgcolourcollapsed_desc', 'format_topcoll');
+    $default = '#000000';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+
+    // Collapsed state - Default toggle foreground hover colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgfghvrcolourcollapsed';
+    $title = get_string('defaulttgfghvrcolourcollapsed', 'format_topcoll');
+    $description = get_string('defaulttgfghvrcolourcollapsed_desc', 'format_topcoll');
+    $default = '#888888';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+
+    // Collapsed state - Default toggle background colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgbgcolourcollapsed';
+    $title = get_string('defaulttgbgcolourcollapsed', 'format_topcoll');
+    $description = get_string('defaulttgbgcolourcollapsed_desc', 'format_topcoll');
+    $default = '#e2e2f2';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+
+    // Collapsed state - Default toggle background hover colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgbghvrcolourcollapsed';
+    $title = get_string('defaulttgbghvrcolourcollapsed', 'format_topcoll');
+    $description = get_string('defaulttgbghvrcolourcollapsed_desc', 'format_topcoll');
+    $default = '#eeeeff';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+    
+    // Collapsed state - Default toggle border colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgbordercolourcollapsed';
+    $title = get_string('defaulttgbordercolourcollapsed', 'format_topcoll');
+    $description = get_string('defaulttgbordercolourcollapsed_desc', 'format_topcoll');
+    $default = '#dddddd';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+    
+    // Collapsed state - Default toggle border hover colour in hexadecimal RGB with preceding '#'.
+    $name = 'format_topcoll/defaulttgborderhvrcolourcollapsed';
+    $title = get_string('defaulttgborderhvrcolourcollapsed', 'format_topcoll');
+    $description = get_string('defaulttgborderhvrcolourcollapsed_desc', 'format_topcoll');
+    $default = '#dddddd';
+    $setting = new admin_setting_configcolourpicker($name, $title, $description, $default);
+    $settings->add($setting);
+    //===================================================
+    //              End core hack
+    //===================================================  
 
     // Toggle text alignment.
     // 1 = left, 2 = center and 3 = right - done this way to avoid typos.
@@ -256,7 +328,7 @@ if ($ADMIN->fulltree) {
         2 => new lang_string('yes')
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
-
+    
     $settings->add(new admin_setting_heading('format_topcoll_configuration', get_string('configurationheadingsub', 'format_topcoll'),
         format_text(get_string('configurationheadingsubdesc', 'format_topcoll'), FORMAT_MARKDOWN)));
 
@@ -498,4 +570,22 @@ if ($ADMIN->fulltree) {
         '4.0' => new lang_string('em4_0', 'format_topcoll')
     );
     $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
+    
+    //===================================================
+    //              Begin core hack - VODHAS-859
+    //===================================================  
+    
+    /* Toggle Open all and Close all - 1 = no, 2 = yes. */
+    $name = 'format_topcoll/defaultdisplayopencloseall';
+    $title = get_string('defaultdisplayopencloseall', 'format_topcoll');
+    $description = get_string('defaultdisplayopencloseall_desc', 'format_topcoll');
+    $default = 2;
+    $choices = array(
+        1 => new lang_string('no'),   // No.
+        2 => new lang_string('yes')   // Yes.
+    );
+    $settings->add(new admin_setting_configselect($name, $title, $description, $default, $choices));
+    //===================================================
+    //              End core hack
+    //=================================================== 
 }
