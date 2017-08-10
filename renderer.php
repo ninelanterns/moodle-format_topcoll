@@ -375,7 +375,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
         //===================================================
         //              Begin core hack - VODHAS-859
         //===================================================  
-        if ((!($section->toggle === null)) && ($section->toggle == true)) {
+        if (isset($section->toggle) && (!($section->toggle === null)) && ($section->toggle == true)) {
             $contenttoggleclass = 'content_open';
         } else {
             $contenttoggleclass = 'content_closed';
