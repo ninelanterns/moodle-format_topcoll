@@ -458,3 +458,23 @@ $string['setcollapsedtoggleborderhovercolour_help'] = 'Sets the collapsed toggle
 //===================================================
 //              End core hack
 //=================================================== 
+
+//===================================================
+//              Begin core hack - VODHAS-1440
+//=================================================== 
+$string['editsection_style'] = 'Edit section styles';
+$string['panel_background_colour'] = 'Panel background colour';
+$string['panel_header_colour'] = 'Panel header text colour';
+$string['panel_header_alignment'] = 'Panel header text alignment';
+$string['toggle_icon_alignment'] = 'Toggle icon alignment';
+$string['fontawesome_icon'] = 'FontAwesome icon';
+$string['fontawesome_icon_colour'] = 'FontAwesome icon colour';
+$string['fontawesome_icon_alignment'] = 'FontAwesome icon alignment';
+$string[''] = '';
+$string[''] = '';
+$string[''] = '';
+$string[''] = '';
+$string[''] = '';
+//===================================================
+//              End core hack
+//=================================================== 

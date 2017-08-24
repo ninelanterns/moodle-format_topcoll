@@ -816,7 +816,7 @@ body.jsenabled #toggle-all {
 
 /**
 //===================================================
-//              Begin core hack - VODHAS-859
+//      Begin core hack - VODHAS-859, VODHAS-1440
 //===================================================  
 */
 .format-topcoll .course-content ul li.section.main {
@@ -836,6 +836,10 @@ body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .to
     background-position: 10px center;
     padding-top: 4px;
     padding-bottom: 4px;
+    position: relative;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a.alignment-right {
+    background-position: top 10px right 10px;
 }
 body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a {
     background-image: none;
@@ -843,10 +847,14 @@ body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .to
 body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a:before {
     position: absolute;
     font-family: 'FontAwesome';
-    left: 30px;
+    left: 15px;
     vertical-align: middle;
     line-height: 33px;
 }
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.alignment-right:before {
+    left: auto;
+    right: 15px;
+} 
 body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.toggle_closed:before {
     content: '\f054'; 
 }
@@ -870,6 +878,14 @@ body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .to
 .course-content ul.ctopics li.section .content.sectionhidden h3.section-title {
     font-size: 20px;
 }
+.course-content ul.ctopics li.section .content .toggle a  h3.section-title.alignment-center, 
+.course-content ul.ctopics li.section .content.sectionhidden h3.section-title.alignment-center {
+    text-align: center;
+}
+.course-content ul.ctopics li.section .content .toggle a  h3.section-title.alignment-right, 
+.course-content ul.ctopics li.section .content.sectionhidden h3.section-title.alignment-right {
+    text-align: right;
+}
 .format-topcoll .course-content ul li.section.main .content .sectionbody ul.section li.activity {
     border-bottom: 1px solid #dddddd;
     margin-bottom: 10px;
@@ -878,6 +894,16 @@ body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .to
 .format-topcoll .course-content ul li.section.main .content .sectionbody ul.section li.activity:last-child {
     border-bottom: none;
     margin-bottom: 0;
+}
+.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a .fa {
+    position: absolute;
+    top: 12px;
+    font-size: 15px;
+    right: 15px;
+}
+.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a .fa.alignment-left {
+    right: auto;
+    left: 15px;
 }
 /**
 //===================================================

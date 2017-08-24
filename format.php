@@ -111,6 +111,10 @@ if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTI
     $tcborderradiustr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiustr'), PARAM_TEXT);
     $tcborderradiusbr = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbr'), PARAM_TEXT);
     $tcborderradiusbl = clean_param(get_config('format_topcoll', 'defaulttoggleborderradiusbl'), PARAM_TEXT);
+    
+    // core hack - VODHAS-1440
+    $section_styles = $DB->get_records('format_topcoll_section_info', array('courseid' => $course->id));  
+    // end core hack
     ?>
     <style type="text/css" media="screen">
     /* <![CDATA[ */
@@ -317,7 +321,31 @@ if ((!empty($displaysection)) && ($course->coursedisplay == COURSE_DISPLAY_MULTI
                     echo $tcsettings['collapsedtoggleforegroundhovercolour'];
                   ?>;
     }
-    
+    <?php
+        if(!empty($section_styles)) {
+            foreach($section_styles as $sec_style) {
+            $section_id = $sec_style->course_sections_id;
+            $panel_header_bg = $sec_style->panel_background_colour;
+            $panel_header_text_colour = $sec_style->panel_header_colour;
+            $fa_icon_colour = $sec_style->fontawesome_icon_colour;
+    ?>
+    .course-content ul.ctopics.ctlayout li.section.main.sectionid-<?php echo $section_id;?> .content.content_closed:hover,
+    .course-content ul.ctopics.ctlayout li.section.main.sectionid-<?php echo $section_id;?> .content.content_closed{
+        border-color: <?php echo $panel_header_bg;?>;
+    }
+    .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content .sectionhead a.toggle_closed {
+        background-color: <?php echo $panel_header_bg;?>;
+    }
+    .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content_closed .section-title {
+        color: <?php echo $panel_header_text_colour;?>;
+    }
+    .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content.content_closed .toggle-arrow a .fa {
+        color: <?php echo $fa_icon_colour;?>;
+    }
+    <?php
+            }
+        }
+    ?>
     /** 
         End core hack 
     */

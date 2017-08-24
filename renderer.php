@@ -165,7 +165,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
                 }
             }
         }
-
+        
         return $o;
     }
 
@@ -214,7 +214,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
         if (!$this->userisediting) {
             return array();
         }
-
+     
         $coursecontext = context_course::instance($course->id);
 
         if ($onsectionpage) {
@@ -247,6 +247,22 @@ class format_topcoll_renderer extends format_section_renderer_base {
                                     array('title' => $strmarkthissection,
                                           'class' => 'editing_highlight'));
             }
+            
+            //===================================================
+            //              Begin core hack - VODHAS-1440
+            //=================================================== 
+            global $CFG;
+            $sectioninfo_edit_url = new moodle_url($CFG->wwwroot.'/course/format/topcoll/editsection_styles.php',
+                    array('courseid' => $course->id, 'course_sections_id' => $section->id, ));
+            //$controls[] = html_writer::link($sectioninfo_edit_url, 'Edit section info');
+            
+            $controls[] = html_writer::link($sectioninfo_edit_url, html_writer::empty_tag('img',
+                                    array('src' => $this->output->pix_url('t/editstring'),
+                                          'class' => 'icon edit tceditsection', 'alt' => get_string('edit'))),
+                                    array('title' => get_string('editsection_style','format_topcoll'), 'class' => 'tceditsection'));
+            //===================================================
+            //              End core hack 
+            //===================================================  
         }
 
         return array_merge($controls, parent::section_edit_controls($course, $section, $onsectionpage));
@@ -321,6 +337,19 @@ class format_topcoll_renderer extends format_section_renderer_base {
      * @return string HTML to output.
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn = null) {
+        global $DB;
+        
+        //===================================================
+        //              Begin core hack - VODHAS-1440
+        //===================================================  
+        // grab section info
+        $section_style = $DB->get_record('format_topcoll_section_info', array('course_sections_id' => $section->id, 'courseid' => $course->id));
+        $title_alignment = !empty($section_style->panel_header_alignment) ? ' alignment-'.$section_style->panel_header_alignment : '';
+        $toggle_alignment = !empty($section_style->toggle_icon_alignment) ? ' alignment-'.$section_style->toggle_icon_alignment : '';
+        //===================================================
+        //              End core hack
+        //=================================================== 
+        
         $o = '';
 
         $sectionstyle = '';
@@ -340,7 +369,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
 
         $liattributes = array(
             'id' => 'section-' . $section->section,
-            'class' => 'section main clearfix' . $sectionstyle,
+            'class' => 'section main clearfix' . $sectionstyle. ' sectionid-'.$section->id,
             'role' => 'region',
             'aria-label' => $this->courseformat->get_topcoll_section_name($course, $section, false)
         );
@@ -397,20 +426,30 @@ class format_topcoll_renderer extends format_section_renderer_base {
                 $toggleclass = 'toggle_closed';
                 $sectionclass = '';
             }
-            $toggleclass .= ' the_toggle '.$this->tctoggleiconsize;
+            $toggleclass .= ' the_toggle '.$this->tctoggleiconsize . $toggle_alignment;
             $toggleurl = new moodle_url('/course/view.php', array('id' => $course->id));
             $o .= html_writer::start_tag('a', array('class' => $toggleclass, 'href' => $toggleurl));
 
             if (empty($this->tcsettings)) {
                 $this->tcsettings = $this->courseformat->get_settings();
             }
-
+            
             $title = $this->courseformat->get_topcoll_section_name($course, $section, true);
             if ((($this->mobiletheme === false) && ($this->tablettheme === false)) || ($this->userisediting)) {
-                $o .= $this->output->heading($title, 3, 'section-title');
+                $o .= $this->output->heading($title, 3, 'section-title'.$title_alignment);
             } else {
                 $o .= html_writer::tag('h3', $title); // Moodle H3's look bad on mobile / tablet with CT so use plain.
             }
+            
+            //===================================================
+            //              Begin core hack - VODHAS-1440
+            //===================================================  
+            if(!empty($section_style->fontawesome_icon)) {
+                $o .= html_writer::tag('i', null, array('class' => 'fa fa-'.$section_style->fontawesome_icon.' alignment-'.$section_style->fontawesome_icon_alignment));
+            }
+            //===================================================
+            //              End core hack 
+            //===================================================  
 
             $o .= html_writer::end_tag('a');
             $o .= html_writer::end_tag('div');

@@ -161,11 +161,42 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
             $dbman->drop_table($table);
         } // ...else Nothing to do as settings put in DB on first use.
     }
-
+    
     // Automatic 'Purge all caches'....
     if ($oldversion < 2114052000) {
         purge_all_caches();
     }
+    
+    if ($oldversion < 2015042003) {
+
+        // Define table format_topcoll_section_info to be created.
+        $table = new xmldb_table('format_topcoll_section_info');
+
+        // Adding fields to table format_topcoll_section_info.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('course_sections_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('panel_background_colour', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('panel_header_colour', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('panel_header_alignment', XMLDB_TYPE_CHAR, '255', null, null, null, 'left');
+        $table->add_field('toggle_icon_alignment', XMLDB_TYPE_CHAR, '255', null, null, null, 'left');
+        $table->add_field('fontawesome_icon', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('fontawesome_icon_colour', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('fontawesome_icon_alignment', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+
+        // Adding keys to table format_topcoll_section_info.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('mdl_formtopcsectinfo_uix', XMLDB_KEY_UNIQUE, array('courseid', 'course_sections_id'));
+
+        // Conditionally launch create table for format_topcoll_section_info.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        // Topcoll savepoint reached.
+        upgrade_plugin_savepoint(true, 2015042003, 'format', 'topcoll');
+    }
+
 
     return $result;
 }
