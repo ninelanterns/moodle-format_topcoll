@@ -24,6 +24,7 @@ $url = new moodle_url('/course/format/topcoll/editsection_styles.php', array(
     'courseid' => $courseid,
     'course_sections_id' => $sectionid));
 
+require_login($courseid, true);
 if (isguestuser()) {
     die();
 }

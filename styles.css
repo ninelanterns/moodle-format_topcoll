@@ -837,6 +837,7 @@ body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .to
     padding-top: 4px;
     padding-bottom: 4px;
     position: relative;
+    padding-right: 40px;
 }
 body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a.alignment-right {
     background-position: top 10px right 10px;
