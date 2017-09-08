@@ -57,6 +57,9 @@ class editsection_styles_form extends \moodleform {
         $mform->addElement('select', 'fontawesome_icon_alignment', get_string('fontawesome_icon_alignment', 'format_topcoll'), $alignments_lr);
         $mform->setType('fontawesome_icon_alignment', PARAM_TEXT);
         
+        $mform->addElement('advcheckbox', 'default_expanded', get_string('default_expanded', 'format_topcoll'));
+        $mform->addElement('advcheckbox', 'never_collapse', get_string('never_collapse', 'format_topcoll'));
+        
         // Hidden params.
         // id
         $mform->addElement('hidden', 'id', 0);

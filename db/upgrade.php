@@ -196,6 +196,36 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
         // Topcoll savepoint reached.
         upgrade_plugin_savepoint(true, 2015042003, 'format', 'topcoll');
     }
+    
+    if ($oldversion < 2015042004) {
+
+        // Define field default_expanded to be added to format_topcoll_section_info.
+        $table = new xmldb_table('format_topcoll_section_info');
+        $field = new xmldb_field('default_expanded', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'fontawesome_icon_alignment');
+
+        // Conditionally launch add field default_expanded.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Topcoll savepoint reached.
+        upgrade_plugin_savepoint(true, 2015042004, 'format', 'topcoll');
+    }
+    
+    if ($oldversion < 2015042005) {
+
+        // Define field never_collapse to be added to format_topcoll_section_info.
+        $table = new xmldb_table('format_topcoll_section_info');
+        $field = new xmldb_field('never_collapse', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'default_expanded');
+
+        // Conditionally launch add field never_collapse.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Topcoll savepoint reached.
+        upgrade_plugin_savepoint(true, 2015042005, 'format', 'topcoll');
+    }
 
 
     return $result;

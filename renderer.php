@@ -404,7 +404,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
         //===================================================
         //              Begin core hack - VODHAS-859
         //===================================================  
-        if (isset($section->toggle) && (!($section->toggle === null)) && ($section->toggle == true)) {
+        if ((isset($section->toggle) && (!($section->toggle === null)) && ($section->toggle == true)) || !empty($section_style->default_expanded) || !empty($section_style->never_collapse)) {
             $contenttoggleclass = 'content_open';
         } else {
             $contenttoggleclass = 'content_closed';
@@ -415,11 +415,18 @@ class format_topcoll_renderer extends format_section_renderer_base {
         $o .= html_writer::start_tag('div', array('class' => 'content '. $contenttoggleclass));
 
         if (($onsectionpage == false) && ($section->section != 0)) {
+        //===================================================
+        //              Begin core hack - VODHAS-1440
+        //===================================================
+            $toggle = !empty($section_style->never_collapse) ? 'toggle-disabled' : 'toggle';
             $o .= html_writer::start_tag('div',
-                    array('class' => 'sectionhead toggle toggle-'.$this->tcsettings['toggleiconset'],
+                    array('class' => 'sectionhead '.$toggle.' toggle-'.$this->tcsettings['toggleiconset'],
                     'id' => 'toggle-' . $section->section));
-
-            if ((!($section->toggle === null)) && ($section->toggle == true)) {
+          
+            if (((!($section->toggle === null)) && ($section->toggle == true)) || !empty($section_style->default_expanded) || !empty($section_style->never_collapse)) {
+        //===================================================
+        //              Begin core hack - VODHAS-1440
+        //===================================================  
                 $toggleclass = 'toggle_open';
                 $sectionclass = ' sectionopen';
             } else {
