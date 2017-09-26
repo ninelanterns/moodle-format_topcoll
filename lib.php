@@ -1172,6 +1172,12 @@ class format_topcoll extends format_base {
     public function can_delete_section($section) {
         return true;
     }
+
+    //HOMHAS-100 Add boostrap for topcoll plugin
+    public function page_set_course(moodle_page $page) {
+        $page->requires->css('/bootstrap/bootstrap-editable.css');
+        $page->requires->js('/bootstrap/bootstrap-editable.js');
+    }
 }
 
 /**
