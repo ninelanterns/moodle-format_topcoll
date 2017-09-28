@@ -117,6 +117,8 @@ M.format_topcoll.init = function(Y, theCourseId, theToggleState, theNumSections,
     if (allclosed) {
         allclosed.on('click', this.allCloseClick);
     }
+    //HOMHAS-100 Collapsed all topics as a default
+    this.allCloseClick(window.event);
 };
 
 M.format_topcoll.toggleClick = function(e) {
