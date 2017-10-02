@@ -1175,7 +1175,7 @@ class format_topcoll extends format_base {
 
     //HOMHAS-100 Add boostrap for topcoll plugin
     public function page_set_course(moodle_page $page) {
-        if (!defined('AJAX_SCRIPT')) {
+        if (!$page->requires->is_head_done()) {
             $page->requires->css('/course/format/topcoll/bootstrap/bootstrap_min.css');
             $page->requires->css('/course/format/topcoll/styles.css');
             $page->requires->js('/course/format/topcoll/bootstrap/bootstrap.js');
