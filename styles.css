@@ -927,6 +927,15 @@ body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .to
     right: auto;
     left: 15px;
 }
+/*
+    Begin - VODHAS-1540
+*/
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.fa-icon-enabled:before {
+    content: '';
+}
+/* 
+    End VODHAS-1540
+*/
 /**
 //===================================================
 //              End core hack

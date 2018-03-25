@@ -415,25 +415,38 @@ class format_topcoll_renderer extends format_section_renderer_base {
         $o .= html_writer::start_tag('div', array('class' => 'content '. $contenttoggleclass));
 
         if (($onsectionpage == false) && ($section->section != 0)) {
-        //===================================================
-        //              Begin core hack - VODHAS-1440
-        //===================================================
+            //===================================================
+            //              Begin core hack - VODHAS-1440
+            //===================================================
             $toggle = !empty($section_style->never_collapse) ? 'toggle-disabled' : 'toggle';
             $o .= html_writer::start_tag('div',
                     array('class' => 'sectionhead '.$toggle.' toggle-'.$this->tcsettings['toggleiconset'],
                     'id' => 'toggle-' . $section->section));
           
             if (((!($section->toggle === null)) && ($section->toggle == true)) || !empty($section_style->default_expanded) || !empty($section_style->never_collapse)) {
-        //===================================================
-        //              Begin core hack - VODHAS-1440
-        //===================================================  
+            //===================================================
+            //              Begin core hack - VODHAS-1440
+            //===================================================  
                 $toggleclass = 'toggle_open';
                 $sectionclass = ' sectionopen';
             } else {
                 $toggleclass = 'toggle_closed';
                 $sectionclass = '';
             }
-            $toggleclass .= ' the_toggle '.$this->tctoggleiconsize . $toggle_alignment;
+            
+            //===================================================
+            //              Begin core hack - VODHAS-1540
+            //=================================================== 
+            $fontawesome_icon_set = false;
+            $fontawesome_icon_enabled = '';
+            if(!empty($section_style->fontawesome_icon)) {
+                $fontawesome_icon_set = true;
+                $fontawesome_icon_enabled = 'fa-icon-enabled';
+            }
+            //===================================================
+            //              End core hack - VODHAS-1540
+            //=================================================== 
+            $toggleclass .= ' the_toggle '.$this->tctoggleiconsize . $toggle_alignment . ' ' .$fontawesome_icon_enabled;
             $toggleurl = new moodle_url('/course/view.php', array('id' => $course->id));
             $o .= html_writer::start_tag('a', array('class' => $toggleclass, 'href' => $toggleurl));
 
@@ -451,7 +464,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
             //===================================================
             //              Begin core hack - VODHAS-1440
             //===================================================  
-            if(!empty($section_style->fontawesome_icon)) {
+            if($fontawesome_icon_set) {
                 $o .= html_writer::tag('i', null, array('class' => 'fa fa-'.$section_style->fontawesome_icon.' alignment-'.$section_style->fontawesome_icon_alignment));
             }
             //===================================================
