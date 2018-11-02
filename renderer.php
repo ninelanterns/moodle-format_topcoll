@@ -264,6 +264,22 @@ class format_topcoll_renderer extends format_section_renderer_base {
 
         $parentcontrols = parent::section_edit_control_items($course, $section, $onsectionpage);
 
+        //===================================================
+        //              Begin core hack - VODHAS-1440
+        //===================================================
+        global $CFG;
+        $sectioninfo_edit_url = new moodle_url($CFG->wwwroot.'/course/format/topcoll/editsection_styles.php',
+            array('courseid' => $course->id, 'course_sections_id' => $section->id, ));
+        //$controls[] = html_writer::link($sectioninfo_edit_url, 'Edit section info');
+
+        $controls[] = html_writer::link($sectioninfo_edit_url, html_writer::empty_tag('img',
+            array('src' => $this->output->pix_url('t/editstring'),
+                'class' => 'icon edit tceditsection', 'alt' => get_string('edit'))),
+            array('title' => get_string('editsection_style','format_topcoll'), 'class' => 'tceditsection'));
+        //===================================================
+        //              End core hack
+        //===================================================
+
         // If the edit key exists, we are going to insert our controls after it.
         if (array_key_exists("edit", $parentcontrols)) {
             $merged = array();
@@ -351,6 +367,18 @@ class format_topcoll_renderer extends format_section_renderer_base {
      * @return string HTML to output.
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn = null) {
+        global $DB;
+
+        //===================================================
+        //              Begin core hack - VODHAS-1440
+        //===================================================
+        // grab section info
+        $section_style = $DB->get_record('format_topcoll_section_info', array('course_sections_id' => $section->id, 'courseid' => $course->id));
+        $title_alignment = !empty($section_style->panel_header_alignment) ? ' alignment-'.$section_style->panel_header_alignment : '';
+        $toggle_alignment = !empty($section_style->toggle_icon_alignment) ? ' alignment-'.$section_style->toggle_icon_alignment : '';
+        //===================================================
+        //              End core hack
+        //===================================================
         $o = '';
 
         $sectionstyle = '';
@@ -374,7 +402,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
         }
         $liattributes = array(
             'id' => 'section-' . $section->section,
-            'class' => 'section main clearfix' . $sectionstyle,
+            'class' => 'section main clearfix' . $sectionstyle. ' sectionid-'.$section->id,
             'role' => 'region',
             'aria-label' => $this->courseformat->get_topcoll_section_name($course, $section, false)
         );
@@ -406,15 +434,33 @@ class format_topcoll_renderer extends format_section_renderer_base {
                 $o .= html_writer::tag('div', $rightcontent, array('class' => 'right side'));
             }
         }
-        $o .= html_writer::start_tag('div', array('class' => 'content'));
+        //===================================================
+        //              Begin core hack - VODHAS-859
+        //===================================================
+        if ((isset($section->toggle) && (!($section->toggle === null)) && ($section->toggle == true)) || !empty($section_style->default_expanded) || !empty($section_style->never_collapse)) {
+            $contenttoggleclass = 'content_open';
+        } else {
+            $contenttoggleclass = 'content_closed';
+        }
+        //===================================================
+        //              End core hack
+        //===================================================
+        $o .= html_writer::start_tag('div', array('class' => 'content '. $contenttoggleclass));
 
         if (($onsectionpage == false) && ($section->section != 0)) {
+            //===================================================
+            //              Begin core hack - VODHAS-1440
+            //===================================================
+            $toggle = !empty($section_style->never_collapse) ? 'toggle-disabled' : 'toggle';
             $o .= html_writer::start_tag('div',
-                array('class' => 'sectionhead toggle toggle-'.$this->tcsettings['toggleiconset'],
+                array('class' => 'sectionhead '.$toggle.' toggle-'.$this->tcsettings['toggleiconset'],
                 'id' => 'toggle-'.$section->section)
             );
 
-            if ((!($section->toggle === null)) && ($section->toggle == true)) {
+            if (((!($section->toggle === null)) && ($section->toggle == true)) || !empty($section_style->default_expanded) || !empty($section_style->never_collapse)) {
+                //===================================================
+                //              End core hack - VODHAS-1440
+                //===================================================
                 $toggleclass = 'toggle_open';
                 $ariapressed = 'true';
                 $sectionclass = ' sectionopen';
@@ -423,7 +469,19 @@ class format_topcoll_renderer extends format_section_renderer_base {
                 $ariapressed = 'false';
                 $sectionclass = '';
             }
-            $toggleclass .= ' the_toggle ' . $this->tctoggleiconsize;
+            //===================================================
+            //              Begin core hack - VODHAS-1540
+            //===================================================
+            $fontawesome_icon_set = false;
+            $fontawesome_icon_enabled = '';
+            if(!empty($section_style->fontawesome_icon)) {
+                $fontawesome_icon_set = true;
+                $fontawesome_icon_enabled = 'fa-icon-enabled';
+            }
+            //===================================================
+            //              End core hack - VODHAS-1540
+            //===================================================
+            $toggleclass .= ' the_toggle '.$this->tctoggleiconsize . $toggle_alignment . ' ' .$fontawesome_icon_enabled;
             $toggleurl = new moodle_url('/course/view.php', array('id' => $course->id));
             $o .= html_writer::start_tag('a',
                 array('class' => $toggleclass, 'href' => $toggleurl, 'role' => 'button', 'aria-pressed' => $ariapressed)
@@ -435,10 +493,20 @@ class format_topcoll_renderer extends format_section_renderer_base {
 
             $title = $this->courseformat->get_topcoll_section_name($course, $section, true);
             if ((($this->mobiletheme === false) && ($this->tablettheme === false)) || ($this->userisediting)) {
-                $o .= $this->output->heading($title, 3, 'section-title');
+                $o .= $this->output->heading($title, 3, 'section-title'.$title_alignment);
             } else {
                 $o .= html_writer::tag('h3', $title); // Moodle H3's look bad on mobile / tablet with CT so use plain.
             }
+
+            //===================================================
+            //              Begin core hack - VODHAS-1440
+            //===================================================
+            if($fontawesome_icon_set) {
+                $o .= html_writer::tag('i', null, array('class' => 'fa fa-'.$section_style->fontawesome_icon.' alignment-'.$section_style->fontawesome_icon_alignment));
+            }
+            //===================================================
+            //              End core hack
+            //===================================================
 
             $o .= html_writer::end_tag('a');
             $o .= html_writer::end_tag('div');
@@ -979,15 +1047,13 @@ class format_topcoll_renderer extends format_section_renderer_base {
             $iconsetclass .= '-hover' . $iconsetclass;
         }
         $o .= html_writer::start_tag('div', array('class' => 'sectionbody' . $iconsetclass));
-        $o .= html_writer::start_tag('h4', null);
-        $o .= html_writer::tag('a', get_string('topcollopened', 'format_topcoll'),
-            array('class' => 'on ' . $this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-opened',
-            'role' => 'button')
-        );
-        $o .= html_writer::tag('a', get_string('topcollclosed', 'format_topcoll'),
-            array('class' => 'off ' . $this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-closed',
-            'role' => 'button')
-        );
+        if($this->tcsettings['displayopencloseall'] == 2) {
+            $o .= html_writer::start_tag('h4', null);
+            $o .= html_writer::tag('a', get_string('topcollopened', 'format_topcoll'),
+            array('class' => 'on '.$this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-opened'));
+            $o .= html_writer::tag('a', get_string('topcollclosed', 'format_topcoll'),
+                array('class' => 'off '.$this->tctoggleiconsize, 'href' => '#', 'id' => 'toggles-all-closed'));
+        }
         $o .= html_writer::end_tag('h4');
         $o .= html_writer::end_tag('div');
         $o .= html_writer::end_tag('div');
