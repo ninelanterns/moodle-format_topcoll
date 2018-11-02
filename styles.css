@@ -706,11 +706,10 @@ body.jsenabled #toggle-all {
     border-width: 1px;
     border-color: #dddddd;
 }
-.format-topcoll .course-content ul.ctopics li.section.main .content .content_closed,
-.format-topcoll .course-content ul.ctopics li.section.main .content .content_open {
+.format-topcoll .course-content ul.ctopics li.section.main .content_closed,
+.format-topcoll .course-content ul.ctopics li.section.main .content_open {
     margin: 2px 0;
 }
-
 body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a,
 body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-disabled a {
     padding-left: 35px;
