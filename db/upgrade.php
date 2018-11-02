@@ -167,7 +167,7 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
         purge_all_caches();
     }
 
-    if ($oldversion < 2015042003) {
+    if ($oldversion < 2018100201) {
         // Define table format_topcoll_section_info to be created.
         $table = new xmldb_table('format_topcoll_section_info');
         // Adding fields to table format_topcoll_section_info.
@@ -189,10 +189,10 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
             $dbman->create_table($table);
         }
         // Topcoll savepoint reached.
-        upgrade_plugin_savepoint(true, 2015042003, 'format', 'topcoll');
+        upgrade_plugin_savepoint(true, 2018100201, 'format', 'topcoll');
     }
 
-    if ($oldversion < 2015042004) {
+    if ($oldversion < 2018100202) {
         // Define field default_expanded to be added to format_topcoll_section_info.
         $table = new xmldb_table('format_topcoll_section_info');
         $field = new xmldb_field('default_expanded', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'fontawesome_icon_alignment');
@@ -201,10 +201,10 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
             $dbman->add_field($table, $field);
         }
         // Topcoll savepoint reached.
-        upgrade_plugin_savepoint(true, 2015042004, 'format', 'topcoll');
+        upgrade_plugin_savepoint(true, 2018100202, 'format', 'topcoll');
     }
 
-    if ($oldversion < 2015042005) {
+    if ($oldversion < 2018100203) {
         // Define field never_collapse to be added to format_topcoll_section_info.
         $table = new xmldb_table('format_topcoll_section_info');
         $field = new xmldb_field('never_collapse', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'default_expanded');
@@ -213,7 +213,7 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
             $dbman->add_field($table, $field);
         }
         // Topcoll savepoint reached.
-        upgrade_plugin_savepoint(true, 2015042005, 'format', 'topcoll');
+        upgrade_plugin_savepoint(true, 2018100203, 'format', 'topcoll');
     }
 
     return $result;
