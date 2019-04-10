@@ -369,3 +369,8 @@ $string['readme_desc'] = 'Please click on \'{$a->url}\' for lots more informatio
 // Depreciated.  Remove in M3.4 version.
 $string['defaultcoursedisplay'] = 'Course display';
 $string['defaultcoursedisplay_desc'] = "Either show all the sections on a single page or section zero and the chosen section on page.";
+
+// Begin
+// Kineo CCM T12 
+$string['addsections'] = 'Add topics';
+// End Kineo CCM T12 

@@ -1336,6 +1336,43 @@ class format_topcoll extends format_base {
         $rv['section_availability'] = $renderer->section_availability($this->get_section($section));
         return $rv;
     }
+    
+    // Begin Kineo CCM T12 
+    
+    /**
+     * Method used in the rendered and during backup instead of legacy 'numsections'
+     *
+     * Default renderer will treat sections with sectionnumber greater that the value returned by this
+     * method as "orphaned" and not display them on the course page unless in editing mode.
+     * Backup will store this value as 'numsections'.
+     *
+     * This method ensures that 3rd party course format plugins that still use 'numsections' continue to
+     * work but at the same time we no longer expect formats to have 'numsections' property.
+     *
+     * @return int
+     */
+    public function get_last_section_number() {
+        $course = $this->get_course();
+        if (isset($course->numsections)) {
+            return $course->numsections;
+        }
+        $modinfo = get_fast_modinfo($course);
+        $sections = $modinfo->get_section_info_all();
+        return (int)max(array_keys($sections));
+    }
+    
+    /**
+     * Method used to get the maximum number of sections for this course format.
+     * @return int
+     */
+    public function get_max_sections() {
+        $maxsections = get_config('moodlecourse', 'maxsections');
+        if (!isset($maxsections) || !is_numeric($maxsections)) {
+            $maxsections = 52;
+        }
+        return $maxsections;
+    }
+    // End Kineo CCM T12 
 }
 
 /**
