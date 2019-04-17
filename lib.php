@@ -366,6 +366,17 @@ class format_topcoll extends format_base {
             }
             $courseconfig = get_config('moodlecourse');
             $courseformatoptions = array(
+                /*
+                 * MBIHAS-227
+                 * Begin Kineo CCM
+                 */
+                'numsections' => array(
+                    'default' => $courseconfig->numsections,
+                    'type' => PARAM_INT,
+                ),
+                /*
+                 * End Kineo CCM
+                 */
                 'hiddensections' => array(
                     'default' => $courseconfig->hiddensections,
                     'type' => PARAM_INT,
@@ -469,8 +480,31 @@ class format_topcoll extends format_base {
             }
 
             $context = $this->get_context();
-
+            /*
+             * MBIHAS-227
+             * Begin Kineo CCM
+             */
+            $courseconfig = get_config('moodlecourse');
+            $sectionmenu = array();
+            for ($i = 0; $i <= $courseconfig->maxsections; $i++) {
+                $sectionmenu[$i] = "$i";
+            }
+            /*
+             * End Kineo CCM
+             */
             $courseformatoptionsedit = array(
+                /*
+                 * MBIHAS-227
+                 * Begin Kineo CCM
+                 */
+                'numsections' => array(
+                    'label' => new lang_string('numbersections', 'format_topcoll'),
+                    'element_type' => 'select',
+                    'element_attributes' => array($sectionmenu),
+                ),
+                /*
+                 * End Kineo CCM
+                 */
                 'hiddensections' => array(
                     'label' => new lang_string('hiddensections'),
                     'help' => 'hiddensections',
@@ -793,14 +827,29 @@ class format_topcoll extends format_base {
                with empty sections.
                The "Number of sections" option is no longer available when editing course, instead teachers should
                delete and add sections when needed. */
-            $courseconfig = get_config('moodlecourse');
-            $max = (int)$courseconfig->maxsections;
-            $element = $mform->addElement('select', 'numsections', get_string('numberweeks'), range(0, $max ?: 52));
-            $mform->setType('numsections', PARAM_INT);
-            if (is_null($mform->getElementValue('numsections'))) {
-                $mform->setDefault('numsections', $courseconfig->numsections);
+            
+            
+            // Begin - Kineo CCM
+//            $courseconfig = get_config('moodlecourse');
+//            $max = (int)$courseconfig->maxsections;
+//            $element = $mform->addElement('select', 'numsections', get_string('numberweeks'), range(0, $max ?: 52));
+//            $mform->setType('numsections', PARAM_INT);
+//            if (is_null($mform->getElementValue('numsections'))) {
+//                $mform->setDefault('numsections', $courseconfig->numsections);
+//            }
+//            array_unshift($elements, $element);
+            
+            
+            $maxsections = get_config('moodlecourse', 'maxsections');
+            $numsections = $mform->getElementValue('numsections');
+            $numsections = $numsections[0];
+            if ($numsections > $maxsections) {
+                $element = $mform->getElement('numsections');
+                for ($i = ($maxsections + 1); $i <= $numsections; $i++) {
+                    $element->addOption("$i", $i);
+                }
             }
-            array_unshift($elements, $element);
+            // End Kineo CCM
         }
 
         $context = $this->get_context();
@@ -942,6 +991,7 @@ class format_topcoll extends format_base {
      * @return bool whether there were any changes to the options values
      */
     public function update_course_format_options($data, $oldcourse = null) {
+        global $DB;
         /*
          * Notes: Using 'unset' to really ensure that the reset form elements never get into the database.
          *        This has to be done here so that the reset occurs after we have done updates such that the
@@ -1006,12 +1056,38 @@ class format_topcoll extends format_base {
                 if (!array_key_exists($key, $data)) {
                     if (array_key_exists($key, $oldcourse)) {
                         $data[$key] = $oldcourse[$key];
+                    } // Begin Kineo CCM
+                    else if ($key === 'numsections') {
+                        /* If previous format does not have the field 'numsections'
+                         * and $data['numsections'] is not set,
+                         * we fill it with the maximum section number from the DB */
+                        $maxsection = $DB->get_field_sql('SELECT max(section) from {course_sections} WHERE course = ?',
+                            array($this->courseid));
+                        if ($maxsection) {
+                            // If there are no sections, or just default 0-section, 'numsections' will be set to default.
+                            $data['numsections'] = $maxsection;
+                        }
                     }
+                    // End Kineo CCM
                 }
             }
         }
 
         $changes = $this->update_format_options($data);
+        
+        // Begin Kineo CCM
+        if ($changes && array_key_exists('numsections', $data)) {
+            // If the numsections was decreased, try to completely delete the orphaned sections (unless they are not empty).
+            $numsections = (int)$data['numsections'];
+            $maxsection = $DB->get_field_sql(
+                'SELECT max(section) from {course_sections} WHERE course = ?', array($this->courseid));
+            for ($sectionnum = $maxsection; $sectionnum > $numsections; $sectionnum--) {
+                if (!$this->delete_section($sectionnum, false)) {
+                    break;
+                }
+            }
+        }
+        // End Kineo CCM
 
         // Now we can do the reset.
         if (($resetalldisplayinstructions) ||

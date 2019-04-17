@@ -787,8 +787,8 @@ class format_topcoll_renderer extends format_section_renderer_base {
                 /* Show the section if the user is permitted to access it, OR if it's not available
                   but there is some available info text which explains the reason & should display. */
                 if (($this->tcsettings['layoutstructure'] != 3) || ($this->userisediting)) {
-                    $showsection = $thissection->uservisible ||
-                        ($thissection->visible && !$thissection->available && !empty($thissection->availableinfo));
+                    $showsection = !empty($thissection->uservisible) ||
+                        (!empty($thissection->visible) && !$thissection->available && !empty($thissection->availableinfo));
                 } else {
                     $showsection = ($thissection->uservisible ||
                         ($thissection->visible && !$thissection->available && !empty($thissection->availableinfo))) &&
@@ -818,7 +818,7 @@ class format_topcoll_renderer extends format_section_renderer_base {
                         }
                     }
                     if ($testhidden) {
-                        if (!$course->hiddensections && $thissection->available) {
+                        if (!$course->hiddensections && !empty($thissection->available)) {
                             $thissection->ishidden = true;
                             $sectiondisplayarray[] = $thissection;
                         }
