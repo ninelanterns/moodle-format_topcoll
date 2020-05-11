@@ -193,9 +193,23 @@ M.format_topcoll.toggle_topic = function(targetNode, toggleNum) {
 
     var target = targetNode.one('span.the_toggle');
     var state;
+    //===================================================
+    //              Begin core hack - VODHAS-859
+    //===================================================
+    var contentNode = target.ancestor().ancestor('.content');
+    //===================================================
+    //              End core hack
+    //===================================================
     if (!target.hasClass('toggle_open')) {
         target.addClass('toggle_open').removeClass('toggle_closed').setAttribute('aria-pressed', 'true');
         targetNode.next('.toggledsection').addClass('sectionopen');
+        //===================================================
+        //              Begin core hack - VODHAS-859
+        //===================================================
+        contentNode.addClass('content_open').removeClass('content_closed');
+        //===================================================
+        //              End core hack
+        //===================================================
         state = true;
         if (this.oneTopic === true) {
             this.currentTopic = targetNode;
@@ -204,6 +218,13 @@ M.format_topcoll.toggle_topic = function(targetNode, toggleNum) {
     } else {
         target.addClass('toggle_closed').removeClass('toggle_open').setAttribute('aria-pressed', 'false');
         targetNode.next('.toggledsection').removeClass('sectionopen');
+        //===================================================
+        //              Begin core hack - VODHAS-859
+        //===================================================
+        contentNode.addClass('content_closed').removeClass('content_open');
+        //===================================================
+        //              End core hack
+        //===================================================
         state = false;
         if (this.oneTopic === true) {
             this.currentTopic = null;

@@ -180,5 +180,54 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
         purge_all_caches();
     }
 
+    if ($oldversion < 2018100201) {
+        // Define table format_topcoll_section_info to be created.
+        $table = new xmldb_table('format_topcoll_section_info');
+        // Adding fields to table format_topcoll_section_info.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('course_sections_id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('panel_background_colour', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('panel_header_colour', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('panel_header_alignment', XMLDB_TYPE_CHAR, '255', null, null, null, 'left');
+        $table->add_field('toggle_icon_alignment', XMLDB_TYPE_CHAR, '255', null, null, null, 'left');
+        $table->add_field('fontawesome_icon', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('fontawesome_icon_colour', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        $table->add_field('fontawesome_icon_alignment', XMLDB_TYPE_CHAR, '255', null, null, null, null);
+        // Adding keys to table format_topcoll_section_info.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('mdl_formtopcsectinfo_uix', XMLDB_KEY_UNIQUE, array('courseid', 'course_sections_id'));
+        // Conditionally launch create table for format_topcoll_section_info.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+        // Topcoll savepoint reached.
+        upgrade_plugin_savepoint(true, 2018100201, 'format', 'topcoll');
+    }
+
+    if ($oldversion < 2018100202) {
+        // Define field default_expanded to be added to format_topcoll_section_info.
+        $table = new xmldb_table('format_topcoll_section_info');
+        $field = new xmldb_field('default_expanded', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'fontawesome_icon_alignment');
+        // Conditionally launch add field default_expanded.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Topcoll savepoint reached.
+        upgrade_plugin_savepoint(true, 2018100202, 'format', 'topcoll');
+    }
+
+    if ($oldversion < 2018100203) {
+        // Define field never_collapse to be added to format_topcoll_section_info.
+        $table = new xmldb_table('format_topcoll_section_info');
+        $field = new xmldb_field('never_collapse', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'default_expanded');
+        // Conditionally launch add field never_collapse.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Topcoll savepoint reached.
+        upgrade_plugin_savepoint(true, 2018100203, 'format', 'topcoll');
+    }
+
     return $result;
 }

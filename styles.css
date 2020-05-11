@@ -96,57 +96,74 @@
 
 /* Toggle icon size */
 #toggle-all .content .sectionbody h4 span.tc-small,
-.course-content ul.ctopics li.section .content .toggle span.tc-small {
+.course-content ul.ctopics li.section .content .toggle span.tc-small,
+#toggle-all .content .sectionbody h4 a.tc-small, .course-content ul.ctopics li.section .content .toggle-disabled a.tc-small {
     background-size: 16px 16px;
 }
 
 #toggle-all .content .sectionbody h4 span.tc-medium,
-.course-content ul.ctopics li.section .content .toggle span.tc-medium {
+.course-content ul.ctopics li.section .content .toggle span.tc-medium,
+#toggle-all .content .sectionbody h4 a.tc-medium, .course-content ul.ctopics li.section .content .toggle-disabled a.tc-medium{
     background-size: 24px 24px;
 }
 #toggle-all .content .sectionbody h4 span.tc-large,
-.course-content ul.ctopics li.section .content .toggle span.tc-large {
+.course-content ul.ctopics li.section .content .toggle span.tc-large,
+#toggle-all .content .sectionbody h4 a.tc-large, .course-content ul.ctopics li.section .content .toggle-disabled a.tc-large{
     background-size: 32px 32px;
 }
 
 /* -- Set the clickable element of the Toggle -- */
-.course-content ul.ctopics li.section .content .toggle span.the_toggle {
+.course-content ul.ctopics li.section .content .toggle span.the_toggle,
+.course-content ul.ctopics li.section .content .toggle-disabled span.the_toggle {
     display: block;
     padding-bottom: 6px;
     padding-top: 6px;
     width: auto;
 }
 
-.course-content ul.ctopics li.section .content .toggle span.the_toggle.tc-small {
+.course-content ul.ctopics li.section .content .toggle span.the_toggle.tc-small,
+.course-content ul.ctopics li.section .content .toggle-disabled a.tc-small {
     padding-left: 16px; /* The 16px allows the arrow to be with the text next to it. */
     padding-right: 16px;
 }
 
-.course-content ul.ctopics li.section .content .toggle span.the_toggle.tc-medium {
+.course-content ul.ctopics li.section .content .toggle span.the_toggle.tc-medium,
+.course-content ul.ctopics li.section .content .toggle-disabled a.tc-medium {
     padding-left: 24px; /* The 24px allows the arrow to be with the text next to it. */
     padding-right: 24px;
 }
 
-.course-content ul.ctopics li.section .content .toggle span.the_toggle.tc-large {
+.course-content ul.ctopics li.section .content .toggle span.the_toggle.tc-large,
+.course-content ul.ctopics li.section .content .toggle-disabled a.tc-large{
     padding-left: 32px; /* The 32px allows the arrow to be with the text next to it. */
     padding-right: 32px;
 }
 
+body.ie7 .course-content ul.ctopics li.section .content .toggle a,
+body.ie7 .course-content ul.ctopics li.section .content .toggle-disabled a {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
 /* CONTRIB-4106 */
 .course-content ul.ctopics li.section .content .toggle span.the_toggle h3,
+.course-content ul.ctopics li.section .content .toggle-disabled a  h3,
 .course-content ul.ctopics li.section .content.sectionhidden h3 {
     margin: 0;
     word-wrap: break-word;
 }
 
 .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname,
+.course-content ul.ctopics li.section .content .toggle-disabled a  h3.section-title,
 .course-content ul.ctopics li.section .content.sectionhidden h3.sectionname {
     color: inherit;
     margin: 4px;
 }
 
 /* Icon set common. */
-.course-content ul.ctopics li.section .content .toggle span.the_toggle, #toggle-all .content h4 span {
+.course-content ul.ctopics li.section .content .toggle span.the_toggle, #toggle-all .content h4 span,
+.course-content ul.ctopics li.section .content .toggle-disabled span.the_toggle {
+    background-repeat: no-repeat;
     background-color: transparent;
     background-repeat: no-repeat;
     margin: 0 4px;
@@ -600,14 +617,16 @@ body.format-topcoll.editing.jsenabled #region-main ul.ctopics .moodle-actionmenu
 
 /* -- The section name in a Toggle and hidden section -- */
 .course-content ul.ctopics li.section .content .toggle,
-.course-content ul.ctopics li.section .content.sectionhidden  {
+.course-content ul.ctopics li.section .content.sectionhidden,
+.course-content ul.ctopics li.section .content .toggle-disabled {
     display: block;
     padding: 0;
     text-align: left;
 }
 
 /* -- The Toggle -- */
-.course-content ul.ctopics li.section .content .toggle {
+.course-content ul.ctopics li.section .content .toggle,
+.course-content ul.ctopics li.section .content .toggle-disabled{
     cursor: pointer;
     width: 100%;
 }
@@ -618,7 +637,8 @@ body.format-topcoll.editing.jsenabled #region-main ul.ctopics .moodle-actionmenu
 }
 
 /* -- The topic summary text -- */
-.course-content ul.ctopics li.section .content .toggle span.the_toggle p {
+.course-content ul.ctopics li.section .content .toggle span.the_toggle p,
+.course-content ul.ctopics li.section .content .toggle-disabled a p {
     font-size: 1.2em;
     font-style: italic;
     text-align: left;
@@ -641,7 +661,7 @@ body.format-topcoll.editing.jsenabled #region-main ul.ctopics .moodle-actionmenu
 
 /* -- Toggle text -- */
 .course-content ul.ctopics li.section .content .toggle span.the_toggle,
-.course-content ul.ctopics li.section .content.sectionhidden {
+.course-content ul.ctopics li.section .content.sectionhidden, .course-content ul.ctopics li.section .content .toggle-disabled a {
     font-weight: bold;
     text-decoration: none;
 }
@@ -780,3 +800,122 @@ body.jsenabled #toggle-all {
         page-break-before: avoid;
     }
 }
+
+/**
+//===================================================
+//      Begin core hack - VODHAS-859, VODHAS-1440
+//===================================================
+*/
+.format-topcoll .course-content ul li.section.main {
+    border-bottom: none;
+}
+.format-topcoll .course-content ul.ctopics li.section.main .content,
+.format-topcoll .course-content ul.ctopics li.tcsection .content {
+    margin: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dddddd;
+}
+.format-topcoll .course-content ul.ctopics li.section.main .content_closed,
+.format-topcoll .course-content ul.ctopics li.section.main .content_open {
+    margin: 2px 0;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a,
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-disabled a {
+    padding-left: 35px;
+    margin-left: 0;
+    margin-right: 0;
+    background-position: 10px center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    position: relative;
+    padding-right: 40px;
+
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a.alignment-right,
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-disabled a.alignment-right {
+    background-position: top 10px right 10px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a {
+    background-image: none;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a:before {
+    position: absolute;
+    font-family: 'FontAwesome';
+    left: 15px;
+    vertical-align: middle;
+    line-height: 33px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.alignment-right:before {
+    left: auto;
+    right: 15px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.toggle_closed:before {
+    content: '\f054';
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.toggle_open:before {
+    content: '\f078';
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.tc-small:before {
+    font-size: 16px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.tc-medium:before {
+    font-size: 24px;
+}
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.tc-large:before {
+    font-size: 32px;
+}
+.course-content ul.ctopics li.section .content .toggledsection {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.course-content ul.ctopics li.section .content .toggle a  h3.section-title,
+.course-content ul.ctopics li.section .content .toggle-disabled a  h3.section-title,
+.course-content ul.ctopics li.section .content.sectionhidden h3.section-title {
+    font-size: 20px;
+}
+.course-content ul.ctopics li.section .content .toggle a  h3.section-title.alignment-center,
+.course-content ul.ctopics li.section .content .toggle-disabled a  h3.section-title.alignment-center,
+.course-content ul.ctopics li.section .content.sectionhidden h3.section-title.alignment-center {
+    text-align: center;
+}
+.course-content ul.ctopics li.section .content .toggle a  h3.section-title.alignment-right,
+.course-content ul.ctopics li.section .content .toggle-disabled a  h3.section-title.alignment-right,
+.course-content ul.ctopics li.section .content.sectionhidden h3.section-title.alignment-right {
+    text-align: right;
+}
+.format-topcoll .course-content ul li.section.main .content .sectionbody ul.section li.activity {
+    border-bottom: 1px solid #dddddd;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+}
+.format-topcoll .course-content ul li.section.main .content .sectionbody ul.section li.activity:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a .fa,
+.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-disabled a .fa{
+    position: absolute;
+    top: 12px;
+    font-size: 15px;
+    right: 15px;
+}
+.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle a .fa.alignment-left,
+.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-disabled a .fa.alignment-left {
+    right: auto;
+    left: 15px;
+}
+/*
+    Begin - VODHAS-1540
+*/
+body.format-topcoll.jsenabled .course-content ul.ctopics li.section .content .toggle-arrow a.fa-icon-enabled:before {
+    content: '';
+}
+/*
+    End VODHAS-1540
+*/
+/**
+//===================================================
+//              End core hack
+//===================================================
+*/
