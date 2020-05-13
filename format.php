@@ -114,8 +114,8 @@ if (!empty($displaysection)) {
         /* <![CDATA[ */
         /* -- Toggle -- */
         /** -- Core hack -- */
-        .course-content ul.ctopics li.section .content a.toggle_open,
-        .course-content ul.ctopics li.section .content.sectionhidden a.toggle_open{
+        .course-content ul.ctopics li.section .content span.the_toggle.toggle_open,
+        .course-content ul.ctopics li.section .content.sectionhidden span.the_toggle.toggle_open{
             background-color: <?php
                             if ($tcsettings['togglebackgroundcolour'][0] != '#') {
                                 echo '#';
@@ -137,7 +137,7 @@ if (!empty($displaysection)) {
         }
         /* -- Toggle text -- */
         /** -- Core hack -- */
-        .course-content ul.ctopics li.section .content .toggle a, .course-content ul.ctopics li.section .content.sectionhidden {
+        .course-content ul.ctopics li.section .content .toggle span.the_toggle, .course-content ul.ctopics li.section .content.sectionhidden {
             text-align: <?php
     switch ($tcsettings['togglealignment']) {
         case 1:
@@ -153,8 +153,8 @@ if (!empty($displaysection)) {
         }
 
         /* -- What happens when a toggle is hovered over when toggle is open -- */
-        .course-content ul.ctopics li.section .content a.toggle_open:hover,
-        .course-content ul.ctopics li.section .content.sectionhidden a.toggle_open:hover{
+        .course-content ul.ctopics li.section .content span.the_toggle.toggle_open:hover,
+        .course-content ul.ctopics li.section .content.sectionhidden span.the_toggle.toggle_open:hover{
             background-color: <?php
                             if ($tcsettings['togglebackgroundhovercolour'][0] != '#') {
                                 echo '#';
@@ -169,7 +169,7 @@ if (!empty($displaysection)) {
                ?>;
         }
         /* Toggle icon position. */
-        .course-content ul.ctopics li.section .content .toggle a, #toggle-all .content h4 span {
+        .course-content ul.ctopics li.section .content .toggle span.the_toggle, #toggle-all .content h4 span {
             background-position: <?php
     switch ($tcsettings['toggleiconposition']) {
         case 2:
@@ -279,8 +279,8 @@ if (!empty($displaysection)) {
         /**
             Begin core hack - VODHAS-859
         */
-        .course-content ul.ctopics li.section .content a.toggle_closed,
-        .course-content ul.ctopics li.section .content.sectionhidden a.toggle_closed{
+        .course-content ul.ctopics li.section .content span.the_toggle.toggle_closed,
+        .course-content ul.ctopics li.section .content.sectionhidden span.the_toggle.toggle_closed{
             background-color: <?php
                             if ($tcsettings['collapsedtogglebackgroundcolour'][0] != '#') {
                                 echo '#';
@@ -294,8 +294,8 @@ if (!empty($displaysection)) {
                     echo $tcsettings['collapsedtoggleforegroundcolour'];
                   ?>;
         }
-        .course-content ul.ctopics li.section .content a.toggle_closed:hover,
-        .course-content ul.ctopics li.section .content.sectionhidden a.toggle_closed:hover{
+        .course-content ul.ctopics li.section .content span.the_toggle.toggle_closed:hover,
+        .course-content ul.ctopics li.section .content.sectionhidden span.the_toggle.toggle_closed:hover{
             background-color: <?php
                             if ($tcsettings['collapsedtogglebackgroundhovercolour'][0] != '#') {
                                 echo '#';
@@ -321,13 +321,13 @@ if (!empty($displaysection)) {
         .course-content ul.ctopics.ctlayout li.section.main.sectionid-<?php echo $section_id;?> .content.content_closed{
             border-color: <?php echo $panel_header_bg;?>;
         }
-        .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content .sectionhead a.toggle_closed {
+        .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content .sectionhead span.the_toggle.toggle_closed {
             background-color: <?php echo $panel_header_bg;?>;
         }
-        .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content_closed .section-title {
+        .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content_closed .sectionname {
             color: <?php echo $panel_header_text_colour;?>;
         }
-        .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content.content_closed .toggle-arrow a .fa {
+        .course-content ul.ctopics li.sectionid-<?php echo $section_id;?> .content.content_closed .toggle-arrow span.the_toggle .fa {
             color: <?php echo $fa_icon_colour;?>;
         }
         <?php

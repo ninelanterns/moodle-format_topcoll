@@ -309,15 +309,15 @@ class format_topcoll_renderer extends format_section_renderer_base {
         //===================================================
         //              Begin core hack - VODHAS-1440
         //===================================================
-        global $CFG;
-        $sectioninfo_edit_url = new moodle_url($CFG->wwwroot.'/course/format/topcoll/editsection_styles.php',
-            array('courseid' => $course->id, 'course_sections_id' => $section->id, ));
-        //$controls[] = html_writer::link($sectioninfo_edit_url, 'Edit section info');
-
-        $controls[] = html_writer::link($sectioninfo_edit_url, html_writer::empty_tag('img',
-            array('src' => $this->output->pix_url('t/editstring'),
-                'class' => 'icon edit tceditsection', 'alt' => get_string('edit'))),
-            array('title' => get_string('editsection_style','format_topcoll'), 'class' => 'tceditsection'));
+        $url = new moodle_url('/course/format/topcoll/editsection_styles.php', [
+            'courseid'           => $course->id,
+            'course_sections_id' => $section->id,
+        ]);
+        $controls['styles'] = [
+            'url'  => $url,
+            'icon' => 't/editstring',
+            'name' => get_string('editsection_style', 'format_topcoll'),
+        ];
         //===================================================
         //              End core hack
         //===================================================
