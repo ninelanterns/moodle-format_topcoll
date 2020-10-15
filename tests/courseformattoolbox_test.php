@@ -15,27 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Collapsed Topics Information
- *
- * A topic based format that solves the issue of the 'Scroll of Death' when a course has many topics. All topics
- * except zero have a toggle that displays that topic. One or more topics can be displayed at any given time.
- * Toggles are persistent on a per browser session per course basis but can be made to persist longer by a small
- * code change. Full installation instructions, code adaptions and credits are included in the 'Readme.txt' file.
+ * Collapsed Topics course format.
  *
  * @package    format_topcoll
  * @version    See the value of '$plugin->version' in version.php.
- * @copyright  &copy; 2012-onwards G J Barnard in respect to modifications of standard topics format.
- * @author     G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
+ * @copyright  &copy; 2017-onwards G J Barnard in respect to modifications of standard topics format.
+ * @author     G J Barnard - {@link http://moodle.org/user/profile.php?id=442195}
  * @link       http://docs.moodle.org/en/Collapsed_Topics_course_format
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
- *
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-// Optional course format configuration file.
+/**
+ * Toolbox unit tests for the Collapsed Topics course format.
+ * @group format_topcoll
+ */
+class format_topcoll_courseformattoolbox_testcase extends advanced_testcase {
 
-// This file contains any specific configuration settings for the format.
+    protected function setUp() {
+        $this->resetAfterTest(true);
 
-// The default blocks layout for this course format:...
-    $format['defaultblocks'] = ':search_forums,news_items,calendar_upcoming,recent_activity';
+        set_config('theme', 'boost');
+    }
+
+    public function test_hex2rgba() {
+        $theoutput = \format_topcoll\toolbox::hex2rgba('ffaabb', '0.8');;
+        $thevalue = 'rgba(255, 170, 187, 0.8)';
+
+        $this->assertEquals($thevalue, $theoutput);
+    }
+}

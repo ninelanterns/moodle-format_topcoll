@@ -24,18 +24,31 @@
  *
  * @package    format_topcoll
  * @version    See the value of '$plugin->version' in version.php.
- * @copyright  &copy; 2012-onwards G J Barnard in respect to modifications of standard topics format.
- * @author     G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
+ * @copyright  &copy; 2018-onwards G J Barnard in respect to modifications of core code.
+ * @author     G J Barnard - {@link http://moodle.org/user/profile.php?id=442195}
  * @link       http://docs.moodle.org/en/Collapsed_Topics_course_format
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  *
  */
 
+namespace format_topcoll\output;
+
 defined('MOODLE_INTERNAL') || die();
 
-// Optional course format configuration file.
-
-// This file contains any specific configuration settings for the format.
-
-// The default blocks layout for this course format:...
-    $format['defaultblocks'] = ':search_forums,news_items,calendar_upcoming,recent_activity';
+class course_module_name extends \core_course\output\course_module_name {
+    /**
+     * Export this data so it can be used as the context for a mustache template (core/inplace_editable).
+     *
+     * @param renderer_base $output typically, the renderer that's calling this function
+     * @return array data context for a mustache template
+     */
+    public function export_for_template(\renderer_base $output) {
+        global $PAGE;
+        $courserenderer = $PAGE->get_renderer('format_topcoll', 'course'); // Use our renderer instead.
+        $this->displayvalue = $courserenderer->course_section_cm_name_title($this->cm, $this->displayoptions);
+        if (strval($this->displayvalue) === '') {
+            $this->editable = false;
+        }
+        return parent::export_for_template($output);
+    }
+}

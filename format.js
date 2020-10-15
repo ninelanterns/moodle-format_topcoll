@@ -6,8 +6,7 @@
  * Toggles are persistent on a per browser session per course basis but can be made to persist longer by a small
  * code change. Full installation instructions, code adaptions and credits are included in the 'Readme.txt' file.
  *
- * @package    course/format
- * @subpackage topcoll
+ * @package    format_topcoll
  * @version    See the value of '$plugin->version' in version.php.
  * @copyright  &copy; 2012-onwards G J Barnard in respect to modifications of standard topics format.
  * @author     G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
@@ -29,7 +28,6 @@
  */
 
 M.course = M.course || {};
-
 M.course.format = M.course.format || {};
 
 /**
@@ -51,7 +49,7 @@ M.course.format.get_config = function() {
         section_node : 'li',
         section_class : 'section'
     };
-}
+};
 
 /**
  * Swap section
@@ -68,15 +66,17 @@ M.course.format.swap_sections = function(Y, node1, node2) {
     };
 
     var sectionlist = Y.Node.all(CSS.COURSECONTENT + ' ' + M.course.format.get_section_selector(Y));
-    // Swap menus
-    sectionlist.item(node1).one(CSS.SECTIONADDMENUS).swap(sectionlist.item(node2).one(CSS.SECTIONADDMENUS));
-}
-
+    // Swap the non-ajax menus, noting these are not always present (depends on theme and user prefs).
+    if (sectionlist.item(node1).one('.' + CSS.SECTIONADDMENUS)) {
+        sectionlist.item(node1).one('.' + CSS.SECTIONADDMENUS).swap(sectionlist.item(node2).one('.' + CSS.SECTIONADDMENUS));
+    }
+};
 
 /**
  * Process sections after ajax response
  *
  * @param {YUI} Y YUI3 instance
+ * @param {NodeList} sectionlist of sections
  * @param {array} response ajax response
  * @param {string} sectionfrom first affected section
  * @param {string} sectionto last affected section
@@ -84,15 +84,15 @@ M.course.format.swap_sections = function(Y, node1, node2) {
  */
 M.course.format.process_sections = function(Y, sectionlist, response, sectionfrom, sectionto) {
     var CSS = {
-        SECTIONNAME     : '.the_toggle h3'
+        SECTIONNAME     : 'the_toggle h3'
     },
     SELECTORS = {
         LEFTCONTENT     : '.left .cps_centre',
-        SECTIONLEFTSIDE : '.left .section-handle img'
+        SECTIONLEFTSIDE : '.left .section-handle .icon'
     };
 
     if (response.action == 'move') {
-        if (sectionfrom > sectionto) { // MDL-34798
+        if (sectionfrom > sectionto) { // MDL-34798.
             var temp = sectionto;
             sectionto = sectionfrom;
             sectionfrom = temp;
@@ -103,19 +103,21 @@ M.course.format.process_sections = function(Y, sectionlist, response, sectionfro
 
         for (var i = sectionfrom; i <= sectionto; i++) {
             // Update section title.
-            sectionlist.item(i).one(CSS.SECTIONNAME).setContent(response.sectiontitles[i]);
+            var content = Y.Node.create('<span>' + response.sectiontitles[i] + '</span>');
+            sectionlist.item(i).all('.' + CSS.SECTIONNAME).setHTML(content);
             // If the left content section number exists, then set it.
             leftcontent = sectionlist.item(i).one(SELECTORS.LEFTCONTENT);
             if (leftcontent) { // Only set if the section number is shown otherwise JS crashes and stops working.
                 leftcontent.setContent(i);
             }
-            // Update move icon.  MDL-37901.
-            ele = sectionlist.item(i).one(SELECTORS.SECTIONLEFTSIDE);
-            str = ele.getAttribute('alt');
+            // Update the drag handle.
+            ele = sectionlist.item(i).one(SELECTORS.SECTIONLEFTSIDE).ancestor('.section-handle');
+            str = ele.getAttribute('title');
             stridx = str.lastIndexOf(' ');
             newstr = str.substr(0, stridx + 1) + i;
-            ele.setAttribute('alt', newstr);
-            ele.setAttribute('title', newstr); // For FireFox as 'alt' is not refreshed.
+            ele.setAttribute('title', newstr);
+            // Update the aria-label for the section.
+            sectionlist.item(i).setAttribute('aria-label', content.get('innerText').trim());
 
             if (response.current !== -1) {
                 if (sectionlist.item(i).hasClass('current')) {
@@ -130,4 +132,4 @@ M.course.format.process_sections = function(Y, sectionlist, response, sectionfro
             sectionlist.item(response.current).addClass('current');
         }
     }
-}
+};

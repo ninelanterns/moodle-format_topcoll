@@ -23,8 +23,9 @@
  * code change. Full installation instructions, code adaptions and credits are included in the 'Readme.txt' file.
  *
  * @package    format_topcoll
+ * @category   event
  * @version    See the value of '$plugin->version' in version.php.
- * @copyright  &copy; 2012-onwards G J Barnard in respect to modifications of standard topics format.
+ * @copyright  &copy; 2017-onwards G J Barnard based upon work done by Marina Glancy.
  * @author     G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
  * @link       http://docs.moodle.org/en/Collapsed_Topics_course_format
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
@@ -33,9 +34,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Optional course format configuration file.
+// List of observers.
+$observers = array(
 
-// This file contains any specific configuration settings for the format.
+    array(
+        'eventname'   => '\core\event\course_content_deleted',
+        'callback'    => 'format_topcoll_observer::course_content_deleted',
+    ),
 
-// The default blocks layout for this course format:...
-    $format['defaultblocks'] = ':search_forums,news_items,calendar_upcoming,recent_activity';
+);

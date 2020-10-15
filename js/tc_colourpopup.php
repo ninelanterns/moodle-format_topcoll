@@ -22,15 +22,16 @@
  * Toggles are persistent on a per browser session per course basis but can be made to persist longer by a small
  * code change. Full installation instructions, code adaptions and credits are included in the 'Readme.txt' file.
  *
- * @package    course/format
- * @subpackage topcoll
- * @version    See the value of '$plugin->version' in below.
+ * @package    format_topcoll
+ * @version    See the value of '$plugin->version' in version.php.
  * @copyright  &copy; 2012-onwards G J Barnard in respect to modifications of standard topics format.
  * @author     G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
  * @link       http://docs.moodle.org/en/Collapsed_Topics_course_format
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  *
  */
+defined('MOODLE_INTERNAL') || die();
+
 require_once("HTML/QuickForm/text.php");
 
 /**
@@ -39,7 +40,10 @@ require_once("HTML/QuickForm/text.php");
  * @author       Iain Checkland - modified from ColourPicker by Jamie Pratt [thanks]
  * @access       public
  */
-class MoodleQuickForm_tccolourpopup extends HTML_QuickForm_text {
+class MoodleQuickForm_tccolourpopup extends HTML_QuickForm_text implements templatable {
+    use templatable_form_element {
+        export_for_template as export_for_template_base;
+    }
 
     /*
      * html for help button, if empty then no help
@@ -49,8 +53,12 @@ class MoodleQuickForm_tccolourpopup extends HTML_QuickForm_text {
     public $_helpbutton = '';
     public $_hiddenLabel = false;
 
-    public function MoodleQuickForm_tccolourpopup($elementname = null, $elementlabel = null, $attributes = null, $options = null) {
-        parent::HTML_QuickForm_text($elementname, $elementlabel, $attributes);
+    public function __construct($elementname = null, $elementlabel = null, $attributes = null, $options = null) {
+        parent::__construct($elementname, $elementlabel, $attributes);
+        /* Pretend we are a 'static' MoodleForm element so that we get the core_form/element-static template where
+           we can render our own markup via core_renderer::mform_element() in lib/outputrenderers.php.
+           used in combination with 'use' statement above and export_for_template() method below. */
+        $this->setType('static');
     }
 
     public function setHiddenLabel($hiddenLabel) {
@@ -68,9 +76,9 @@ class MoodleQuickForm_tccolourpopup extends HTML_QuickForm_text {
         }
         $content = "<input size='8' name='" . $this->getName() . "' value='" . $colour . "'id='{$id}' type='text' " .
                     $this->_getAttrString($this->_attributes) . " >";
-        $content .= html_writer::tag('span', '&nbsp;', array('id' => 'colpicked_' . $id, 'tabindex' => '-1',
-                                     'style' => 'background-color:#' . $colour .
-                                     ';cursor:pointer;margin:0px;padding: 0 8px;border:1px solid black'));
+        $content .= html_writer::tag('span', '&nbsp;', array('id' => 'colpicked_'.$id, 'tabindex' => '-1',
+                                     'style' => 'background-color: #'.$colour.
+                                     '; cursor:pointer; margin: 0; padding: 0 8px; border:1px solid black'));
         $content .= html_writer::start_tag('div', array('id' => 'colpick_' . $id,
                                            'style' => "display:none;position:absolute;z-index:500;",
                     'class' => 'form-colourpicker defaultsnext'));
@@ -128,5 +136,12 @@ class MoodleQuickForm_tccolourpopup extends HTML_QuickForm_text {
         } else {
             return 'default';
         }
+    }
+
+    public function export_for_template(renderer_base $output) {
+        $context = $this->export_for_template_base($output);
+        $context['html'] = $this->toHtml();
+        $context['staticlabel'] = false; // Not a static label!
+        return $context;
     }
 }

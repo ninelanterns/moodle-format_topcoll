@@ -22,15 +22,17 @@
  * Toggles are persistent on a per browser session per course basis but can be made to persist longer by a small
  * code change. Full installation instructions, code adaptions and credits are included in the 'Readme.txt' file.
  *
- * @package    course/format
- * @subpackage topcoll
- * @version    See the value of '$plugin->version' in below.
+ * @package    format_topcoll
+ * @version    See the value of '$plugin->version' in version.php.
  * @copyright  &copy; 2009-onwards G J Barnard in respect to modifications of standard topics format.
  * @author     G J Barnard - gjbarnard at gmail dot com and {@link http://moodle.org/user/profile.php?id=442195}
  * @link       http://docs.moodle.org/en/Collapsed_Topics_course_format
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  *
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->dirroot . '/course/format/lib.php');
 require_once($CFG->dirroot . '/course/format/topcoll/lib.php');
 
@@ -162,9 +164,14 @@ function xmldb_format_topcoll_upgrade($oldversion = 0) {
         } // ...else Nothing to do as settings put in DB on first use.
     }
 
-    // Automatic 'Purge all caches'....
-    if ($oldversion < 2114052000) {
-        purge_all_caches();
+    if ($oldversion < 2017110301) {
+
+        // During upgrade to Moodle 3.3 it could happen that general section (section 0) became 'invisible'.
+        // It should always be visible.
+        $DB->execute("UPDATE {course_sections} SET visible=1 WHERE visible=0 AND section=0 AND course IN
+        (SELECT id FROM {course} WHERE format=?)", ['topcoll']);
+
+        upgrade_plugin_savepoint(true, 2017110301, 'format', 'topcoll');
     }
 
     return $result;
